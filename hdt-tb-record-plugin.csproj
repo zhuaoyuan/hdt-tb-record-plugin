@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hearthstone-Deck-Tracker\Hearthstone Deck Tracker\Hearthstone Deck Tracker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="HearthDb">
+      <HintPath>..\Hearthstone-Deck-Tracker\lib\HearthDb.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

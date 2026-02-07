@@ -1,0 +1,895 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.7.2": {
+      "ControlzEx/3.0.2.4": {
+        "type": "package",
+        "compile": {
+          "lib/net462/ControlzEx.dll": {
+            "related": ".pdb"
+          },
+          "lib/net462/System.Windows.Interactivity.dll": {}
+        },
+        "runtime": {
+          "lib/net462/ControlzEx.dll": {
+            "related": ".pdb"
+          },
+          "lib/net462/System.Windows.Interactivity.dll": {}
+        }
+      },
+      "DeltaCompressionDotNet/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net20/DeltaCompressionDotNet.MsDelta.dll": {},
+          "lib/net20/DeltaCompressionDotNet.PatchApi.dll": {},
+          "lib/net20/DeltaCompressionDotNet.dll": {}
+        },
+        "runtime": {
+          "lib/net20/DeltaCompressionDotNet.MsDelta.dll": {},
+          "lib/net20/DeltaCompressionDotNet.PatchApi.dll": {},
+          "lib/net20/DeltaCompressionDotNet.dll": {}
+        }
+      },
+      "HtmlAgilityPack/1.11.23": {
+        "type": "package",
+        "compile": {
+          "lib/Net45/HtmlAgilityPack.dll": {
+            "related": ".pdb;.XML"
+          }
+        },
+        "runtime": {
+          "lib/Net45/HtmlAgilityPack.dll": {
+            "related": ".pdb;.XML"
+          }
+        }
+      },
+      "LiveCharts/0.9.7": {
+        "type": "package",
+        "compile": {
+          "lib/net45/LiveCharts.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/LiveCharts.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "LiveCharts.Wpf/0.9.7": {
+        "type": "package",
+        "dependencies": {
+          "LiveCharts": "0.9.7"
+        },
+        "compile": {
+          "lib/net45/LiveCharts.Wpf.dll": {
+            "related": ".pdb;.XML"
+          }
+        },
+        "runtime": {
+          "lib/net45/LiveCharts.Wpf.dll": {
+            "related": ".pdb;.XML"
+          }
+        }
+      },
+      "MahApps.Metro/1.6.5": {
+        "type": "package",
+        "dependencies": {
+          "ControlzEx": "[3.0.2.4, 4.0.0)"
+        },
+        "compile": {
+          "lib/net47/MahApps.Metro.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net47/MahApps.Metro.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Mono.Cecil/0.9.6.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Mono.Cecil.Mdb.dll": {},
+          "lib/net45/Mono.Cecil.Pdb.dll": {},
+          "lib/net45/Mono.Cecil.Rocks.dll": {},
+          "lib/net45/Mono.Cecil.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Mono.Cecil.Mdb.dll": {},
+          "lib/net45/Mono.Cecil.Pdb.dll": {},
+          "lib/net45/Mono.Cecil.Rocks.dll": {},
+          "lib/net45/Mono.Cecil.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "SharpCompress/0.17.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/SharpCompress.dll": {}
+        },
+        "runtime": {
+          "lib/net45/SharpCompress.dll": {}
+        }
+      },
+      "SharpRaven/2.4.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "10.0.3"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System",
+          "System.Configuration",
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net471/SharpRaven.dll": {}
+        },
+        "runtime": {
+          "lib/net471/SharpRaven.dll": {}
+        }
+      },
+      "Splat/1.6.2": {
+        "type": "package",
+        "compile": {
+          "lib/Net45/Splat.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/Net45/Splat.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "squirrel.windows/1.9.1": {
+        "type": "package",
+        "dependencies": {
+          "DeltaCompressionDotNet": "[1.1.0, 2.0.0)",
+          "Mono.Cecil": "0.9.6.1",
+          "SharpCompress": "[0.17.1]",
+          "Splat": "1.6.2"
+        },
+        "compile": {
+          "lib/Net45/NuGet.Squirrel.dll": {
+            "related": ".pdb"
+          },
+          "lib/Net45/Squirrel.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/Net45/NuGet.Squirrel.dll": {
+            "related": ".pdb"
+          },
+          "lib/Net45/Squirrel.dll": {
+            "related": ".pdb"
+          }
+        },
+        "build": {
+          "build/_._": {}
+        }
+      },
+      "TaskScheduler/2.12.1": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System",
+          "System.Drawing",
+          "System.IO.Compression"
+        ],
+        "compile": {
+          "lib/net45/Microsoft.Win32.TaskScheduler.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Win32.TaskScheduler.dll": {
+            "related": ".xml"
+          }
+        },
+        "resource": {
+          "lib/net45/de/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "de"
+          },
+          "lib/net45/es/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "es"
+          },
+          "lib/net45/fr/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/net45/it/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "it"
+          },
+          "lib/net45/ja/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/net45/pl/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/net45/ru/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/net45/sv/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "sv"
+          },
+          "lib/net45/tr/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/net45/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "zh-CN"
+          },
+          "lib/net45/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        }
+      },
+      "WPFLocalizeExtension/3.5.0": {
+        "type": "package",
+        "dependencies": {
+          "XAMLMarkupExtensions": "1.8.0"
+        },
+        "frameworkAssemblies": [
+          "PresentationCore",
+          "PresentationFramework",
+          "System",
+          "System.Management",
+          "System.Xaml",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net452/WPFLocalizeExtension.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net452/WPFLocalizeExtension.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "XAMLMarkupExtensions/1.8.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "PresentationCore",
+          "PresentationFramework",
+          "System",
+          "System.Core",
+          "System.Drawing",
+          "System.Xaml",
+          "System.Xml",
+          "System.Xml.Linq",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net452/XAMLMarkupExtensions.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net452/XAMLMarkupExtensions.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "HearthstoneDeckTracker/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.7.2",
+        "dependencies": {
+          "ControlzEx": "3.0.2.4",
+          "DeltaCompressionDotNet": "1.1.0",
+          "HearthWatcher": "1.0.0",
+          "HtmlAgilityPack": "1.11.23",
+          "LiveCharts": "0.9.7",
+          "LiveCharts.Wpf": "0.9.7",
+          "MahApps.Metro": "1.6.5",
+          "Mono.Cecil": "0.9.6.1",
+          "Newtonsoft.Json": "12.0.3",
+          "SharpCompress": "0.17.1",
+          "SharpRaven": "2.4.0",
+          "Splat": "1.6.2",
+          "TaskScheduler": "2.12.1",
+          "WPFLocalizeExtension": "3.5.0",
+          "XAMLMarkupExtensions": "1.8.0",
+          "squirrel.windows": "1.9.1"
+        },
+        "compile": {
+          "bin/placeholder/HearthstoneDeckTracker.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HearthstoneDeckTracker.dll": {}
+        }
+      },
+      "HearthWatcher/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.7.2",
+        "compile": {
+          "bin/placeholder/HearthWatcher.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HearthWatcher.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ControlzEx/3.0.2.4": {
+      "sha512": "5pgvHE329JDDPwPHCVJe93yxu3CPl2wPh6ma1watUAGjvBtNSMkDcyzvwZcHSryihA/y4Ml3OmDYz9vj7Fg6Xg==",
+      "type": "package",
+      "path": "controlzex/3.0.2.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "controlzex.3.0.2.4.nupkg.sha512",
+        "controlzex.nuspec",
+        "lib/net40/ControlzEx.dll",
+        "lib/net40/ControlzEx.pdb",
+        "lib/net40/System.Windows.Interactivity.dll",
+        "lib/net45/ControlzEx.dll",
+        "lib/net45/ControlzEx.pdb",
+        "lib/net45/System.Windows.Interactivity.dll",
+        "lib/net462/ControlzEx.dll",
+        "lib/net462/ControlzEx.pdb",
+        "lib/net462/System.Windows.Interactivity.dll"
+      ]
+    },
+    "DeltaCompressionDotNet/1.1.0": {
+      "sha512": "j/zGAQ9hLbl7JDpeO40DaXvyyNxwQNDwnJEN7eCexn5F9Kid+VKya/Er0rfIv5Zod/32XarkqFP/V6WFHS/UpQ==",
+      "type": "package",
+      "path": "deltacompressiondotnet/1.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "deltacompressiondotnet.1.1.0.nupkg.sha512",
+        "deltacompressiondotnet.nuspec",
+        "lib/net20/DeltaCompressionDotNet.MsDelta.dll",
+        "lib/net20/DeltaCompressionDotNet.PatchApi.dll",
+        "lib/net20/DeltaCompressionDotNet.dll"
+      ]
+    },
+    "HtmlAgilityPack/1.11.23": {
+      "sha512": "+cgMfM0ks6njN1HjeH157wcF9n9CksuLk4yzKZ3j5/dhC+t1xZ6SZVnksGZZ+6H22Y2RQ6gUEpue4E912271Hg==",
+      "type": "package",
+      "path": "htmlagilitypack/1.11.23",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "htmlagilitypack.1.11.23.nupkg.sha512",
+        "htmlagilitypack.nuspec",
+        "lib/Net35/HtmlAgilityPack.dll",
+        "lib/Net35/HtmlAgilityPack.pdb",
+        "lib/Net35/HtmlAgilityPack.xml",
+        "lib/Net40-client/HtmlAgilityPack.dll",
+        "lib/Net40-client/HtmlAgilityPack.pdb",
+        "lib/Net40-client/HtmlAgilityPack.xml",
+        "lib/Net40/HtmlAgilityPack.XML",
+        "lib/Net40/HtmlAgilityPack.dll",
+        "lib/Net40/HtmlAgilityPack.pdb",
+        "lib/Net45/HtmlAgilityPack.XML",
+        "lib/Net45/HtmlAgilityPack.dll",
+        "lib/Net45/HtmlAgilityPack.pdb",
+        "lib/NetCore45/HtmlAgilityPack.XML",
+        "lib/NetCore45/HtmlAgilityPack.dll",
+        "lib/NetCore45/HtmlAgilityPack.pdb",
+        "lib/netstandard1.3/HtmlAgilityPack.deps.json",
+        "lib/netstandard1.3/HtmlAgilityPack.dll",
+        "lib/netstandard1.3/HtmlAgilityPack.pdb",
+        "lib/netstandard1.3/HtmlAgilityPack.xml",
+        "lib/netstandard1.6/HtmlAgilityPack.deps.json",
+        "lib/netstandard1.6/HtmlAgilityPack.dll",
+        "lib/netstandard1.6/HtmlAgilityPack.pdb",
+        "lib/netstandard1.6/HtmlAgilityPack.xml",
+        "lib/netstandard2.0/HtmlAgilityPack.deps.json",
+        "lib/netstandard2.0/HtmlAgilityPack.dll",
+        "lib/netstandard2.0/HtmlAgilityPack.pdb",
+        "lib/netstandard2.0/HtmlAgilityPack.xml",
+        "lib/portable-net45+netcore45+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.XML",
+        "lib/portable-net45+netcore45+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.dll",
+        "lib/portable-net45+netcore45+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.pdb",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.XML",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.dll",
+        "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch/HtmlAgilityPack.pdb",
+        "lib/uap10.0/HtmlAgilityPack.XML",
+        "lib/uap10.0/HtmlAgilityPack.dll",
+        "lib/uap10.0/HtmlAgilityPack.pdb",
+        "lib/uap10.0/HtmlAgilityPack.pri"
+      ]
+    },
+    "LiveCharts/0.9.7": {
+      "sha512": "p4xyBrUaNNfkWZSNsIle0r51cyVyFg0Yi0uBRZM5GQtdFiA/7guZHlffFyNUILIdux10Ch2hUaJpcZENVU9aaQ==",
+      "type": "package",
+      "path": "livecharts/0.9.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/LiveCharts.dll",
+        "lib/net40/LiveCharts.pdb",
+        "lib/net40/LiveCharts.xml",
+        "lib/net45/LiveCharts.dll",
+        "lib/net45/LiveCharts.pdb",
+        "lib/net45/LiveCharts.xml",
+        "lib/portable-net45+win8+wp8/LiveCharts.XML",
+        "lib/portable-net45+win8+wp8/LiveCharts.dll",
+        "lib/portable-net45+win8+wp8/LiveCharts.pdb",
+        "livecharts.0.9.7.nupkg.sha512",
+        "livecharts.nuspec",
+        "readme.txt"
+      ]
+    },
+    "LiveCharts.Wpf/0.9.7": {
+      "sha512": "lv6YZoK0B4yWykMq5b9grZXtIbTj+OWu4sVN9GDpdgV6zffu64m4d5CW8KSjfSl9rB8VU649x1NZvhoU67hCDg==",
+      "type": "package",
+      "path": "livecharts.wpf/0.9.7",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/LiveCharts.Wpf.XML",
+        "lib/net40/LiveCharts.Wpf.dll",
+        "lib/net40/LiveCharts.Wpf.pdb",
+        "lib/net45/LiveCharts.Wpf.XML",
+        "lib/net45/LiveCharts.Wpf.dll",
+        "lib/net45/LiveCharts.Wpf.pdb",
+        "livecharts.wpf.0.9.7.nupkg.sha512",
+        "livecharts.wpf.nuspec",
+        "tools/install.ps1"
+      ]
+    },
+    "MahApps.Metro/1.6.5": {
+      "sha512": "XFxACnPbTAZ9qYcXMqFDLXXEpAbLj3BYaXqwH8NoY0sfSAYepEpE4C53Nd6AI4TnQ+nmDugtO8dwsAXPtt0SXQ==",
+      "type": "package",
+      "path": "mahapps.metro/1.6.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/MahApps.Metro.dll",
+        "lib/net40/MahApps.Metro.pdb",
+        "lib/net40/MahApps.Metro.xml",
+        "lib/net45/MahApps.Metro.dll",
+        "lib/net45/MahApps.Metro.pdb",
+        "lib/net45/MahApps.Metro.xml",
+        "lib/net46/MahApps.Metro.dll",
+        "lib/net46/MahApps.Metro.pdb",
+        "lib/net46/MahApps.Metro.xml",
+        "lib/net47/MahApps.Metro.dll",
+        "lib/net47/MahApps.Metro.pdb",
+        "lib/net47/MahApps.Metro.xml",
+        "mahapps.metro.1.6.5.nupkg.sha512",
+        "mahapps.metro.nuspec"
+      ]
+    },
+    "Mono.Cecil/0.9.6.1": {
+      "sha512": "yMsurNaOxxKIjyW9pEB+tRrR1S3DFnN1+iBgKvYvXG8kW0Y6yknJeMAe/tl3+P78/2C6304TgF7aVqpqXgEQ9Q==",
+      "type": "package",
+      "path": "mono.cecil/0.9.6.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/Mono.Cecil.Mdb.dll",
+        "lib/net20/Mono.Cecil.Pdb.dll",
+        "lib/net20/Mono.Cecil.dll",
+        "lib/net35/Mono.Cecil.Mdb.dll",
+        "lib/net35/Mono.Cecil.Pdb.dll",
+        "lib/net35/Mono.Cecil.Rocks.dll",
+        "lib/net35/Mono.Cecil.dll",
+        "lib/net40/Mono.Cecil.Mdb.dll",
+        "lib/net40/Mono.Cecil.Pdb.dll",
+        "lib/net40/Mono.Cecil.Rocks.dll",
+        "lib/net40/Mono.Cecil.dll",
+        "lib/net45/Mono.Cecil.Mdb.dll",
+        "lib/net45/Mono.Cecil.Pdb.dll",
+        "lib/net45/Mono.Cecil.Rocks.dll",
+        "lib/net45/Mono.Cecil.dll",
+        "lib/sl5/Mono.Cecil.Rocks.dll",
+        "lib/sl5/Mono.Cecil.dll",
+        "mono.cecil.0.9.6.1.nupkg.sha512",
+        "mono.cecil.nuspec"
+      ]
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "type": "package",
+      "path": "newtonsoft.json/12.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
+    "SharpCompress/0.17.1": {
+      "sha512": "NSofrWwVr0z0ZNRCoV6XFjdopMbOSY6QVRLBfLXUDcjMLNKKhDV6zibiFEVa9eVaz24deslc8kqdVYurKJq/aA==",
+      "type": "package",
+      "path": "sharpcompress/0.17.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/SharpCompress.dll",
+        "lib/net45/SharpCompress.dll",
+        "lib/netstandard1.0/SharpCompress.dll",
+        "lib/netstandard1.3/SharpCompress.dll",
+        "sharpcompress.0.17.1.nupkg.sha512",
+        "sharpcompress.nuspec"
+      ]
+    },
+    "SharpRaven/2.4.0": {
+      "sha512": "BkOWKli5aR9gMoKOYdMUaGKuN+lc+JCdoZNx+YG2i4jRbknXDh4K8VCgxpYUipr7A4VFG+HNjEaZ/i+USVtr3g==",
+      "type": "package",
+      "path": "sharpraven/2.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/SharpRaven.dll",
+        "lib/net40/SharpRaven.dll",
+        "lib/net45/SharpRaven.dll",
+        "lib/net471/SharpRaven.dll",
+        "lib/netstandard2.0/SharpRaven.dll",
+        "sharpraven.2.4.0.nupkg.sha512",
+        "sharpraven.nuspec"
+      ]
+    },
+    "Splat/1.6.2": {
+      "sha512": "DeH0MxPU+D4JchkIDPYG4vUT+hsWs9S41cFle0/4K5EJMXWurx5DzAkj2366DfK14/XKNhsu6tCl4dZXJ3CD4w==",
+      "type": "package",
+      "path": "splat/1.6.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoMac/Splat.dll",
+        "lib/MonoMac/Splat.dll.mdb",
+        "lib/Net45/Splat.dll",
+        "lib/Net45/Splat.pdb",
+        "lib/NetCore45/Splat.dll",
+        "lib/NetCore45/Splat.pdb",
+        "lib/NetCore45/Splat.pri",
+        "lib/Portable-Win81+Wpa81/Splat.dll",
+        "lib/Portable-Win81+Wpa81/Splat.pdb",
+        "lib/Portable-Win81+Wpa81/Splat.pri",
+        "lib/Portable-net45+win+wpa81+wp80/Splat.dll",
+        "lib/Xamarin.Mac10/Splat-XamarinMac.csproj.FilesWrittenAbsolute.txt",
+        "lib/Xamarin.Mac10/Splat.dll",
+        "lib/Xamarin.Mac10/Splat.dll.mdb",
+        "lib/Xamarin.iOS10/Splat.dll",
+        "lib/Xamarin.iOS10/Splat.dll.mdb",
+        "lib/monoandroid/Splat.dll",
+        "lib/monoandroid/Splat.dll.mdb",
+        "lib/monotouch/Splat.dll",
+        "lib/monotouch/Splat.dll.mdb",
+        "lib/wp8/Splat.dll",
+        "lib/wp8/Splat.pdb",
+        "splat.1.6.2.nupkg.sha512",
+        "splat.nuspec"
+      ]
+    },
+    "squirrel.windows/1.9.1": {
+      "sha512": "hIM9q9Lmlqdz6Hul+UEEqNfU0xZflZtFbw7YY5m20Vn/mLpz1cIBjHHk1kqZnZrE7K3kJll5pEy29XMJQQo0lA==",
+      "type": "package",
+      "path": "squirrel.windows/1.9.1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/squirrel.windows.props",
+        "build/squirrel.windows.targets",
+        "lib/Net45/NuGet.Squirrel.dll",
+        "lib/Net45/NuGet.Squirrel.pdb",
+        "lib/Net45/Squirrel.dll",
+        "lib/Net45/Squirrel.pdb",
+        "squirrel.windows.1.9.1.nupkg.sha512",
+        "squirrel.windows.nuspec",
+        "tools/7z.dll",
+        "tools/7z.exe",
+        "tools/Microsoft.Deployment.Resources.dll",
+        "tools/Microsoft.Deployment.WindowsInstaller.dll",
+        "tools/Setup.exe",
+        "tools/Squirrel-Mono.exe",
+        "tools/Squirrel.com",
+        "tools/Squirrel.exe",
+        "tools/StubExecutable.exe",
+        "tools/SyncReleases.exe",
+        "tools/WixNetFxExtension.dll",
+        "tools/WriteZipToSetup.exe",
+        "tools/candle.exe",
+        "tools/candle.exe.config",
+        "tools/darice.cub",
+        "tools/light.exe",
+        "tools/light.exe.config",
+        "tools/rcedit.exe",
+        "tools/signtool.exe",
+        "tools/template.wxs",
+        "tools/wconsole.dll",
+        "tools/winterop.dll",
+        "tools/wix.dll"
+      ]
+    },
+    "TaskScheduler/2.12.1": {
+      "sha512": "DzSVmVs0i5yHmuDy9ZMcTtKg48GU0aEFBbhp2XJrzA4saTRec/KbU5aGE/4P4FE499G3PDx9KPOHysoKzS/i3g==",
+      "type": "package",
+      "path": "taskscheduler/2.12.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "TaskService.md",
+        "lib/net45/Microsoft.Win32.TaskScheduler.dll",
+        "lib/net45/Microsoft.Win32.TaskScheduler.xml",
+        "lib/net45/de/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/es/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/fr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/it/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/ja/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/pl/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/ru/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/sv/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/tr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net45/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/Microsoft.Win32.TaskScheduler.dll",
+        "lib/net48/Microsoft.Win32.TaskScheduler.xml",
+        "lib/net48/de/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/es/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/fr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/it/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/ja/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/pl/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/ru/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/sv/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/tr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net48/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/Microsoft.Win32.TaskScheduler.dll",
+        "lib/net6.0-windows7.0/Microsoft.Win32.TaskScheduler.xml",
+        "lib/net6.0-windows7.0/de/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/es/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/fr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/it/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/ja/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/pl/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/ru/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/sv/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/tr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net6.0-windows7.0/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/Microsoft.Win32.TaskScheduler.dll",
+        "lib/net7.0-windows7.0/Microsoft.Win32.TaskScheduler.xml",
+        "lib/net7.0-windows7.0/de/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/es/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/fr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/it/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/ja/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/pl/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/ru/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/sv/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/tr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net7.0-windows7.0/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/Microsoft.Win32.TaskScheduler.dll",
+        "lib/net8.0-windows7.0/Microsoft.Win32.TaskScheduler.xml",
+        "lib/net8.0-windows7.0/de/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/es/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/fr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/it/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/ja/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/pl/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/ru/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/sv/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/tr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net8.0-windows7.0/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/Microsoft.Win32.TaskScheduler.dll",
+        "lib/net9.0-windows7.0/Microsoft.Win32.TaskScheduler.xml",
+        "lib/net9.0-windows7.0/de/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/es/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/fr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/it/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/ja/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/pl/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/ru/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/sv/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/tr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/net9.0-windows7.0/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/Microsoft.Win32.TaskScheduler.dll",
+        "lib/netcoreapp3.1/Microsoft.Win32.TaskScheduler.xml",
+        "lib/netcoreapp3.1/de/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/es/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/fr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/it/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/ja/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/pl/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/ru/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/sv/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/tr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netcoreapp3.1/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/Microsoft.Win32.TaskScheduler.dll",
+        "lib/netstandard2.0/Microsoft.Win32.TaskScheduler.xml",
+        "lib/netstandard2.0/de/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/es/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/fr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/it/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/ja/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/pl/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/ru/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/sv/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/tr/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/zh-CN/Microsoft.Win32.TaskScheduler.resources.dll",
+        "lib/netstandard2.0/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll",
+        "taskscheduler.2.12.1.nupkg.sha512",
+        "taskscheduler.nuspec",
+        "tsnew48.png"
+      ]
+    },
+    "WPFLocalizeExtension/3.5.0": {
+      "sha512": "z6zHM3782Z6OlmrykDZQLXKhEbzoF/Jr6aNPVhJ3qeUbUsxY9hZDlPKCES4+HSNe6gzDD5N3j18LIAbwnIO5hA==",
+      "type": "package",
+      "path": "wpflocalizeextension/3.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net40/WPFLocalizeExtension.dll",
+        "lib/net40/WPFLocalizeExtension.pdb",
+        "lib/net40/WPFLocalizeExtension.xml",
+        "lib/net452/WPFLocalizeExtension.dll",
+        "lib/net452/WPFLocalizeExtension.pdb",
+        "lib/net452/WPFLocalizeExtension.xml",
+        "lib/netcoreapp3.0/WPFLocalizeExtension.dll",
+        "lib/netcoreapp3.0/WPFLocalizeExtension.pdb",
+        "lib/netcoreapp3.0/WPFLocalizeExtension.xml",
+        "lib/netcoreapp3.1/WPFLocalizeExtension.dll",
+        "lib/netcoreapp3.1/WPFLocalizeExtension.pdb",
+        "lib/netcoreapp3.1/WPFLocalizeExtension.xml",
+        "wpflocalizeextension.3.5.0.nupkg.sha512",
+        "wpflocalizeextension.nuspec"
+      ]
+    },
+    "XAMLMarkupExtensions/1.8.0": {
+      "sha512": "u6NDpNAXfIi6CfPI9wjsEkTHpGRxAO0vm90vo4LT1Fbwc3+VRSYVpKLYMMkjE00ODmujM8yNaHlxK6Qmcq6i1w==",
+      "type": "package",
+      "path": "xamlmarkupextensions/1.8.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/XAMLMarkupExtensions.dll",
+        "lib/net35/XAMLMarkupExtensions.pdb",
+        "lib/net35/XAMLMarkupExtensions.xml",
+        "lib/net40/XAMLMarkupExtensions.dll",
+        "lib/net40/XAMLMarkupExtensions.pdb",
+        "lib/net40/XAMLMarkupExtensions.xml",
+        "lib/net452/XAMLMarkupExtensions.dll",
+        "lib/net452/XAMLMarkupExtensions.pdb",
+        "lib/net452/XAMLMarkupExtensions.xml",
+        "lib/netcoreapp3.0/XAMLMarkupExtensions.dll",
+        "lib/netcoreapp3.0/XAMLMarkupExtensions.pdb",
+        "lib/netcoreapp3.0/XAMLMarkupExtensions.xml",
+        "lib/netcoreapp3.1/XAMLMarkupExtensions.dll",
+        "lib/netcoreapp3.1/XAMLMarkupExtensions.pdb",
+        "lib/netcoreapp3.1/XAMLMarkupExtensions.xml",
+        "xamlmarkupextensions.1.8.0.nupkg.sha512",
+        "xamlmarkupextensions.nuspec"
+      ]
+    },
+    "HearthstoneDeckTracker/1.0.0": {
+      "type": "project",
+      "path": "../Hearthstone-Deck-Tracker/Hearthstone Deck Tracker/Hearthstone Deck Tracker.csproj",
+      "msbuildProject": "../Hearthstone-Deck-Tracker/Hearthstone Deck Tracker/Hearthstone Deck Tracker.csproj"
+    },
+    "HearthWatcher/1.0.0": {
+      "type": "project",
+      "path": "../Hearthstone-Deck-Tracker/HearthWatcher/HearthWatcher.csproj",
+      "msbuildProject": "../Hearthstone-Deck-Tracker/HearthWatcher/HearthWatcher.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.7.2": [
+      "HearthstoneDeckTracker >= 1.0.0",
+      "Newtonsoft.Json >= 12.0.3"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
+      "projectName": "hdt-tb-record-plugin",
+      "projectPath": "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
+      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+      "outputPath": "C:\\projects\\github\\hdt-tb-record-plugin\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
+      ],
+      "originalTargetFrameworks": [
+        "net472"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net472": {
+          "targetAlias": "net472",
+          "projectReferences": {
+            "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj": {
+              "projectPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.200"
+    },
+    "frameworks": {
+      "net472": {
+        "targetAlias": "net472",
+        "dependencies": {
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[12.0.3, )"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "包 \"Newtonsoft.Json\" 12.0.3 具有已知的 高 严重性漏洞，https://github.com/advisories/GHSA-5crp-9r3c-p9vr",
+      "libraryId": "Newtonsoft.Json",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2"
+      ]
+    }
+  ]
+}

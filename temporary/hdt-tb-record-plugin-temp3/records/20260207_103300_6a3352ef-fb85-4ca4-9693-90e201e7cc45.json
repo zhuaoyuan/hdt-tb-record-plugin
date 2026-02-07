@@ -1,0 +1,4565 @@
+[
+  {
+    "TurnNumber": 1,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "TB_BaconShop_HERO_21",
+      "Name": "The Great Akazamzarak"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 7,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 0,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 5,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 1,
+    "OpponentTechLevel": 1,
+    "PlayerBoard": [
+      {
+        "CardId": "BG25_001",
+        "Name": "Risen Rider",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "3614": 1,
+          "3621": 1,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1,
+          "851": 1,
+          "LAST_AFFECTED_BY": 288,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 3,
+          "ZONE_POSITION": 0,
+          "4472": 2,
+          "SPAWN_TIME_COUNT": 1,
+          "JUST_PLAYED": 1,
+          "3557": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 288
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 3
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 0
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 2
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 1
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG22_401",
+        "Name": "Swampstriker",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [
+          "FROZEN"
+        ],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 1,
+          "3622": 1,
+          "BACON_OVERRIDE_BG_COST": 2,
+          "FROZEN": 1,
+          "COPIED_FROM_ENTITY_ID": 522,
+          "3669": 1,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 1
+          },
+          {
+            "Id": 3622,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 2
+          },
+          {
+            "Id": 260,
+            "Name": "FROZEN",
+            "Value": 1
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 522
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG29_814",
+        "Name": "Misfit Dragonling",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 1,
+          "BACON_OVERRIDE_BG_COST": 2,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 1
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 2
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 2,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "TB_BaconShop_HERO_39_SKIN_F",
+      "Name": "Pyramasmius"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 5,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 14,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 2,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 2,
+    "OpponentTechLevel": 2,
+    "PlayerBoard": [
+      {
+        "CardId": "BG25_001",
+        "Name": "Risen Rider",
+        "ZonePosition": 1,
+        "Attack": 0,
+        "Health": 4,
+        "MaxHealth": 4,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "3614": 1,
+          "3621": 1,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "NUM_TURNS_IN_PLAY": 4,
+          "CANT_ATTACK": 1,
+          "851": 1,
+          "LAST_AFFECTED_BY": 291,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 3,
+          "ZONE_POSITION": 1,
+          "4472": 2,
+          "SPAWN_TIME_COUNT": 1,
+          "JUST_PLAYED": 0,
+          "3557": 1,
+          "1196": 0,
+          "EXHAUSTED": 0,
+          "3085": 4,
+          "HEALTH": 4
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 4
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 291
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 3
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 2
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 0
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          },
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 4
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 4
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG28_300",
+        "Name": "Harmless Bonehead",
+        "ZonePosition": 0,
+        "Attack": 3,
+        "Health": 4,
+        "MaxHealth": 4,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 4,
+          "479": 3,
+          "HEALTH": 4,
+          "ATK": 3,
+          "LAST_AFFECTED_BY": 393,
+          "COPIED_FROM_ENTITY_ID": 874,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 4
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 4
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 3
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 393
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 874
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 3,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "BG30_HERO_304",
+      "Name": "Marin the Manager"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 2,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 10,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 2,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 2,
+    "OpponentTechLevel": 2,
+    "PlayerBoard": [
+      {
+        "CardId": "BG34_170t",
+        "Name": "Red Volumizer",
+        "ZonePosition": 1,
+        "Attack": 6,
+        "Health": 4,
+        "MaxHealth": 4,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT"
+        ],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "NUM_TURNS_IN_PLAY": 4,
+          "CANT_ATTACK": 1,
+          "ZONE_POSITION": 1,
+          "851": 1,
+          "LAST_AFFECTED_BY": 869,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "4472": 4,
+          "JUST_PLAYED": 0,
+          "3557": 3,
+          "SPAWN_TIME_COUNT": 1,
+          "1196": 0,
+          "EXHAUSTED": 0,
+          "TAG_SCRIPT_DATA_NUM_6": 1,
+          "479": 6,
+          "ATK": 6,
+          "TAUNT": 1,
+          "3085": 4,
+          "3614": 1,
+          "HEALTH": 4
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 4
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 869
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 4
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 0
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          },
+          {
+            "Id": 2921,
+            "Name": "TAG_SCRIPT_DATA_NUM_6",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 6
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 6
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 4
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 4
+          }
+        ]
+      },
+      {
+        "CardId": "BG29_814",
+        "Name": "Misfit Dragonling",
+        "ZonePosition": 2,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "FROZEN": 0,
+          "COPIED_FROM_ENTITY_ID": 868,
+          "3669": 0,
+          "NUM_TURNS_IN_PLAY": 4,
+          "CANT_ATTACK": 1,
+          "851": 1,
+          "LAST_AFFECTED_BY": 1180,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "ZONE_POSITION": 2,
+          "4472": 2,
+          "JUST_PLAYED": 0,
+          "3557": 1,
+          "SPAWN_TIME_COUNT": 1,
+          "1196": 0,
+          "EXHAUSTED": 0
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 260,
+            "Name": "FROZEN",
+            "Value": 0
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 868
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 4
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1180
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 2
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 2
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 0
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG34_691",
+        "Name": "Embalming Expert",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 1151,
+          "COPIED_FROM_ENTITY_ID": 1383,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1151
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 1383
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 4,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "TB_BaconShop_HERO_92",
+      "Name": "Y'Shaarj"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 2,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 13,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 0,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 3,
+    "OpponentTechLevel": 3,
+    "PlayerBoard": [
+      {
+        "CardId": "BG_BOT_911",
+        "Name": "Annoy-o-Module",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 1,
+          "3614": 1,
+          "3617": 1,
+          "BACON_OVERRIDE_BG_COST": 2,
+          "FROZEN": 0,
+          "COPIED_FROM_ENTITY_ID": 1930,
+          "3669": 0,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1,
+          "851": 1,
+          "LAST_AFFECTED_BY": 2383,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 1
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3617,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 2
+          },
+          {
+            "Id": 260,
+            "Name": "FROZEN",
+            "Value": 0
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 1930
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 2383
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG23_004",
+        "Name": "Deep-Sea Angler",
+        "ZonePosition": 0,
+        "Attack": 4,
+        "Health": 9,
+        "MaxHealth": 9,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT"
+        ],
+        "Tags": {
+          "3085": 9,
+          "SCORE_VALUE_1": 1,
+          "TAUNT": 1,
+          "479": 4,
+          "3614": 1,
+          "HEALTH": 9,
+          "ATK": 4,
+          "LAST_AFFECTED_BY": 1812,
+          "COPIED_FROM_ENTITY_ID": 1938,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 9
+          },
+          {
+            "Id": 451,
+            "Name": "SCORE_VALUE_1",
+            "Value": 1
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 4
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 9
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 4
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1812
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 1938
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG31_330",
+        "Name": "Ominous Seer",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 1166,
+          "COPIED_FROM_ENTITY_ID": 1940,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1166
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 1940
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_170t2",
+        "Name": "Blue Volumizer",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 6,
+        "MaxHealth": 6,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "TAG_SCRIPT_DATA_NUM_6": 1,
+          "3085": 6,
+          "LAST_AFFECTED_BY": 1816,
+          "HEALTH": 6,
+          "COPIED_FROM_ENTITY_ID": 1941,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 2921,
+            "Name": "TAG_SCRIPT_DATA_NUM_6",
+            "Value": 1
+          },
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 6
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1816
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 6
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 1941
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG27_004",
+        "Name": "Surf n' Surf",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "SCORE_VALUE_1": 1,
+          "DEATH_RATTLE": 1,
+          "LAST_AFFECTED_BY": 1712,
+          "COPIED_FROM_ENTITY_ID": 1942,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 451,
+            "Name": "SCORE_VALUE_1",
+            "Value": 1
+          },
+          {
+            "Id": 217,
+            "Name": "DEATH_RATTLE",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1712
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 1942
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 5,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "BG31_HERO_802",
+      "Name": "Artanis"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 0,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 12,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 0,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 3,
+    "OpponentTechLevel": 3,
+    "PlayerBoard": [
+      {
+        "CardId": "BG34_691",
+        "Name": "Embalming Expert",
+        "ZonePosition": 3,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE_POSITION": 3,
+          "1196": 0,
+          "EXHAUSTED": 0,
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "1254": 0,
+          "NUM_TURNS_IN_PLAY": 4,
+          "CANT_ATTACK": 1,
+          "851": 1,
+          "LAST_AFFECTED_BY": 2543,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "4472": 3,
+          "JUST_PLAYED": 0,
+          "3557": 3,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 3
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          },
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 1254,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 4
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 2543
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 0
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG34_630",
+        "Name": "Twilight Hatchling",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 1219,
+          "COPIED_FROM_ENTITY_ID": 2709,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1219
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 2709
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG29_611",
+        "Name": "Cord Puller",
+        "ZonePosition": 0,
+        "Attack": 6,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "479": 6,
+          "3617": 1,
+          "ATK": 6,
+          "LAST_AFFECTED_BY": 310,
+          "COPIED_FROM_ENTITY_ID": 2710,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 6
+          },
+          {
+            "Id": 3617,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 6
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 310
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 2710
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG32_237",
+        "Name": "Intrepid Botanist",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 1052,
+          "COPIED_FROM_ENTITY_ID": 2712,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1052
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 2712
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG33_140",
+        "Name": "River Skipper",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 2252,
+          "COPIED_FROM_ENTITY_ID": 2715,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 2252
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 2715
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG_GVG_085",
+        "Name": "Annoy-o-Tron",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3614": 1,
+          "3617": 1,
+          "LAST_AFFECTED_BY": 1614,
+          "COPIED_FROM_ENTITY_ID": 2716,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3617,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1614
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 2716
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 6,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "BG20_HERO_202",
+      "Name": "Master Nguyen"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 0,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 0,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 0,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 4,
+    "OpponentTechLevel": 4,
+    "PlayerBoard": [
+      {
+        "CardId": "BG24_018",
+        "Name": "Tortollan Blue Shell",
+        "ZonePosition": 0,
+        "Attack": 5,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [
+          "REBORN"
+        ],
+        "Tags": {
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE_POSITION": 0,
+          "1196": 0,
+          "EXHAUSTED": 0,
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_SELL_VALUE": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "1254": 0,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1,
+          "LAST_AFFECTED_BY": 4676,
+          "REBORN": 1,
+          "479": 5,
+          "3621": 1,
+          "ATK": 5,
+          "851": 1,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "4472": 5,
+          "POWERED_UP": 1,
+          "JUST_PLAYED": 1,
+          "3557": 3,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 0
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          },
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 1587,
+            "Name": "BACON_SELL_VALUE",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 1254,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 4676
+          },
+          {
+            "Id": 1085,
+            "Name": "REBORN",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 5
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 5
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 5
+          },
+          {
+            "Id": 386,
+            "Name": "POWERED_UP",
+            "Value": 1
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 1
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_520",
+        "Name": "Spirit Drake",
+        "ZonePosition": 5,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1,
+          "ZONE_POSITION": 5,
+          "851": 1,
+          "LAST_AFFECTED_BY": 4435,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "4472": 1,
+          "JUST_PLAYED": 1,
+          "3557": 2,
+          "SPAWN_TIME_COUNT": 1,
+          "1196": 0,
+          "EXHAUSTED": 0
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 5
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 4435
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 1
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 2
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG26_HERO_104_Buddy",
+        "Name": "Akali, Rock Rhino",
+        "ZonePosition": 0,
+        "Attack": 10,
+        "Health": 12,
+        "MaxHealth": 12,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "TAG_SCRIPT_DATA_NUM_1": 1,
+          "3085": 12,
+          "4158": 1,
+          "479": 10,
+          "HEALTH": 12,
+          "ATK": 10,
+          "USE_ALTERNATE_CARD_TEXT": 1,
+          "LAST_AFFECTED_BY": 3396,
+          "COPIED_FROM_ENTITY_ID": 3738,
+          "3669": 1,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 2,
+            "Name": "TAG_SCRIPT_DATA_NUM_1",
+            "Value": 1
+          },
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 12
+          },
+          {
+            "Id": 4158,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 10
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 12
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 10
+          },
+          {
+            "Id": 955,
+            "Name": "USE_ALTERNATE_CARD_TEXT",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 3396
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 3738
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG32_341",
+        "Name": "Humon'gozz",
+        "ZonePosition": 0,
+        "Attack": 9,
+        "Health": 11,
+        "MaxHealth": 11,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 11,
+          "479": 9,
+          "3617": 1,
+          "HEALTH": 11,
+          "ATK": 9,
+          "LAST_AFFECTED_BY": 3396,
+          "COPIED_FROM_ENTITY_ID": 3740,
+          "3669": 1,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 11
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 9
+          },
+          {
+            "Id": 3617,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 11
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 9
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 3396
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 3740
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG32_341",
+        "Name": "Humon'gozz",
+        "ZonePosition": 0,
+        "Attack": 9,
+        "Health": 11,
+        "MaxHealth": 11,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 11,
+          "479": 9,
+          "3617": 1,
+          "HEALTH": 11,
+          "ATK": 9,
+          "LAST_AFFECTED_BY": 3396,
+          "COPIED_FROM_ENTITY_ID": 3742,
+          "3669": 1,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 11
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 9
+          },
+          {
+            "Id": 3617,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 11
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 9
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 3396
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 3742
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG25_010",
+        "Name": "Handless Forsaken",
+        "ZonePosition": 0,
+        "Attack": 6,
+        "Health": 7,
+        "MaxHealth": 7,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 7,
+          "479": 6,
+          "HEALTH": 7,
+          "ATK": 6,
+          "LAST_AFFECTED_BY": 3237,
+          "COPIED_FROM_ENTITY_ID": 3744,
+          "3669": 1,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 7
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 6
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 7
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 6
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 3237
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 3744
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG26_350_G",
+        "Name": "Bassgill",
+        "ZonePosition": 0,
+        "Attack": 14,
+        "Health": 10,
+        "MaxHealth": 10,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 10,
+          "479": 14,
+          "HEALTH": 10,
+          "ATK": 14,
+          "LAST_AFFECTED_BY": 3396,
+          "COPIED_FROM_ENTITY_ID": 3747,
+          "3669": 1,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 10
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 14
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 10
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 14
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 3396
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 3747
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 7,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "BG31_HERO_005",
+      "Name": "Zerek, Master Cloner"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 0,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 12,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 0,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 4,
+    "OpponentTechLevel": 5,
+    "PlayerBoard": [
+      {
+        "CardId": "BG34_520",
+        "Name": "Spirit Drake",
+        "ZonePosition": 6,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "NUM_TURNS_IN_PLAY": 4,
+          "CANT_ATTACK": 1,
+          "ZONE_POSITION": 6,
+          "851": 1,
+          "LAST_AFFECTED_BY": 4435,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "4472": 1,
+          "JUST_PLAYED": 0,
+          "3557": 2,
+          "SPAWN_TIME_COUNT": 1,
+          "1196": 0,
+          "EXHAUSTED": 0
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 4
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 6
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 4435
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 0
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 2
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG34_630",
+        "Name": "Twilight Hatchling",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 354,
+          "COPIED_FROM_ENTITY_ID": 4926,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 354
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 4926
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_630",
+        "Name": "Twilight Hatchling",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 3212,
+          "COPIED_FROM_ENTITY_ID": 4927,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 3212
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 4927
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG29_864",
+        "Name": "Arid Atrocity",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 43,
+          "COPIED_FROM_ENTITY_ID": 4928,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 43
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 4928
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG21_015",
+        "Name": "Tarecgosa",
+        "ZonePosition": 0,
+        "Attack": 11,
+        "Health": 7,
+        "MaxHealth": 7,
+        "Damage": 0,
+        "Statuses": [
+          "DIVINE_SHIELD"
+        ],
+        "Tags": {
+          "3085": 7,
+          "DIVINE_SHIELD": 1,
+          "479": 11,
+          "3617": 1,
+          "HEALTH": 7,
+          "ATK": 11,
+          "LAST_AFFECTED_BY": 1858,
+          "COPIED_FROM_ENTITY_ID": 4929,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 7
+          },
+          {
+            "Id": 194,
+            "Name": "DIVINE_SHIELD",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 11
+          },
+          {
+            "Id": 3617,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 7
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 11
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1858
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 4929
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG24_500",
+        "Name": "Amber Guardian",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3614": 1,
+          "LAST_AFFECTED_BY": 1652,
+          "COPIED_FROM_ENTITY_ID": 4932,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 1652
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 4932
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG29_816",
+        "Name": "Roaring Recruiter",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 2444,
+          "COPIED_FROM_ENTITY_ID": 4933,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 2444
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 4933
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_520",
+        "Name": "Spirit Drake",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 43,
+          "COPIED_FROM_ENTITY_ID": 4934,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 43
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 4934
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 8,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "TB_BaconShop_HERO_21",
+      "Name": "The Great Akazamzarak"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 0,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 0,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 0,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 5,
+    "OpponentTechLevel": 0,
+    "PlayerBoard": [
+      {
+        "CardId": "BG34_170t3_G",
+        "Name": "Green Volumizer",
+        "ZonePosition": 0,
+        "Attack": 11,
+        "Health": 5,
+        "MaxHealth": 5,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 7847,
+          "HEALTH": 5,
+          "ATK": 11,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE_POSITION": 0,
+          "1196": 0,
+          "EXHAUSTED": 0,
+          "HAS_DRAG_TO_BUY": 0,
+          "479": 11,
+          "3085": 5,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "1254": 0,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1,
+          "2632": 0,
+          "1069": 0,
+          "HAS_ACTIVATE_POWER": 1,
+          "1475": 1,
+          "851": 1,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "4472": 11,
+          "JUST_PLAYED": 1,
+          "3557": 4,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 7847
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 5
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 11
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 0
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          },
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 11
+          },
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 5
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 1254,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 2632,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1069,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 2840,
+            "Name": "HAS_ACTIVATE_POWER",
+            "Value": 1
+          },
+          {
+            "Id": 1475,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 11
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 1
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 4
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG33_315",
+        "Name": "Greedy Snaketongue",
+        "ZonePosition": 0,
+        "Attack": 3,
+        "Health": 6,
+        "MaxHealth": 6,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 6,
+          "479": 3,
+          "HEALTH": 6,
+          "ATK": 3,
+          "LAST_AFFECTED_BY": 3383,
+          "COPIED_FROM_ENTITY_ID": 6503,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 6
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 6
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 3
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 3383
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 6503
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG32_880",
+        "Name": "Friendly Geist",
+        "ZonePosition": 0,
+        "Attack": 7,
+        "Health": 4,
+        "MaxHealth": 4,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT"
+        ],
+        "Tags": {
+          "3085": 4,
+          "TAUNT": 1,
+          "479": 7,
+          "3614": 1,
+          "HEALTH": 4,
+          "ATK": 7,
+          "LAST_AFFECTED_BY": 5883,
+          "COPIED_FROM_ENTITY_ID": 6505,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 4
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 7
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 4
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 7
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 5883
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 6505
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_630",
+        "Name": "Twilight Hatchling",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 2529,
+          "COPIED_FROM_ENTITY_ID": 6507,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 2529
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 6507
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_731",
+        "Name": "Twilight Broodmother",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 5940,
+          "COPIED_FROM_ENTITY_ID": 6508,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 5940
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 6508
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG23_004",
+        "Name": "Deep-Sea Angler",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "SCORE_VALUE_1": 1,
+          "LAST_AFFECTED_BY": 2308,
+          "COPIED_FROM_ENTITY_ID": 6509,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 451,
+            "Name": "SCORE_VALUE_1",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 2308
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 6509
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG26_505",
+        "Name": "Zesty Shaker",
+        "ZonePosition": 0,
+        "Attack": 10,
+        "Health": 20,
+        "MaxHealth": 20,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT"
+        ],
+        "Tags": {
+          "TAG_SCRIPT_DATA_NUM_1": 1,
+          "3085": 20,
+          "TAUNT": 1,
+          "479": 10,
+          "3614": 1,
+          "HEALTH": 20,
+          "ATK": 10,
+          "LAST_AFFECTED_BY": 6185,
+          "COPIED_FROM_ENTITY_ID": 6510,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 2,
+            "Name": "TAG_SCRIPT_DATA_NUM_1",
+            "Value": 1
+          },
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 20
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 10
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 20
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 10
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 6185
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 6510
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 9,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "TB_BaconShop_HERO_39_SKIN_F",
+      "Name": "Pyramasmius"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 0,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 0,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 0,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 5,
+    "OpponentTechLevel": 0,
+    "PlayerBoard": [
+      {
+        "CardId": "BG33_245",
+        "Name": "Twilight Watcher",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "FROZEN": 0,
+          "COPIED_FROM_ENTITY_ID": 8965,
+          "3669": 0,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1,
+          "BACON_PAIR_CANDIDATE": 0,
+          "851": 1,
+          "LAST_AFFECTED_BY": 10263,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "ZONE_POSITION": 0,
+          "4472": 3,
+          "JUST_PLAYED": 1,
+          "3557": 2,
+          "SPAWN_TIME_COUNT": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 260,
+            "Name": "FROZEN",
+            "Value": 0
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8965
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 3031,
+            "Name": "BACON_PAIR_CANDIDATE",
+            "Value": 0
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 10263
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 0
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 1
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 2
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_731",
+        "Name": "Twilight Broodmother",
+        "ZonePosition": 1,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "NUM_TURNS_IN_PLAY": 3,
+          "CANT_ATTACK": 1,
+          "ZONE_POSITION": 1,
+          "851": 1,
+          "LAST_AFFECTED_BY": 10270,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "4472": 7,
+          "IS_EXTRA_TRIGGERED_POWER": 0,
+          "JUST_PLAYED": 1,
+          "3557": 3,
+          "SPAWN_TIME_COUNT": 1,
+          "1196": 0,
+          "EXHAUSTED": 0
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 3
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 10270
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 7
+          },
+          {
+            "Id": 4169,
+            "Name": "IS_EXTRA_TRIGGERED_POWER",
+            "Value": 0
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 1
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG33_111",
+        "Name": "Carapace Raiser",
+        "ZonePosition": 0,
+        "Attack": 58,
+        "Health": 17,
+        "MaxHealth": 17,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT",
+          "REBORN"
+        ],
+        "Tags": {
+          "3085": 17,
+          "TAUNT": 1,
+          "REBORN": 1,
+          "LAST_AFFECTED_BY": 8277,
+          "479": 58,
+          "3614": 1,
+          "3621": 1,
+          "HEALTH": 17,
+          "ATK": 58,
+          "COPIED_FROM_ENTITY_ID": 8975,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 17
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 1085,
+            "Name": "REBORN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 8277
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 58
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 17
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 58
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8975
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_731",
+        "Name": "Twilight Broodmother",
+        "ZonePosition": 0,
+        "Attack": 48,
+        "Health": 14,
+        "MaxHealth": 14,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 14,
+          "479": 48,
+          "HEALTH": 14,
+          "ATK": 48,
+          "LAST_AFFECTED_BY": 8277,
+          "COPIED_FROM_ENTITY_ID": 8980,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 14
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 48
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 14
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 48
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 8277
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8980
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_731",
+        "Name": "Twilight Broodmother",
+        "ZonePosition": 0,
+        "Attack": 52,
+        "Health": 15,
+        "MaxHealth": 15,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 15,
+          "479": 52,
+          "HEALTH": 15,
+          "ATK": 52,
+          "LAST_AFFECTED_BY": 8277,
+          "COPIED_FROM_ENTITY_ID": 8983,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 15
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 52
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 15
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 52
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 8277
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8983
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG32_880",
+        "Name": "Friendly Geist",
+        "ZonePosition": 0,
+        "Attack": 54,
+        "Health": 15,
+        "MaxHealth": 15,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT",
+          "REBORN"
+        ],
+        "Tags": {
+          "3085": 15,
+          "REBORN": 1,
+          "TAUNT": 1,
+          "LAST_AFFECTED_BY": 8277,
+          "479": 54,
+          "3614": 1,
+          "3621": 1,
+          "HEALTH": 15,
+          "ATK": 54,
+          "COPIED_FROM_ENTITY_ID": 8987,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 15
+          },
+          {
+            "Id": 1085,
+            "Name": "REBORN",
+            "Value": 1
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 8277
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 54
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 15
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 54
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8987
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_PreMadeChamp_200",
+        "Name": "Timewarped Centurion",
+        "ZonePosition": 0,
+        "Attack": 45,
+        "Health": 17,
+        "MaxHealth": 17,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT"
+        ],
+        "Tags": {
+          "3085": 17,
+          "TAUNT": 1,
+          "479": 45,
+          "3614": 1,
+          "HEALTH": 17,
+          "ATK": 45,
+          "USE_ALTERNATE_CARD_TEXT": 1,
+          "4540": 1,
+          "LAST_AFFECTED_BY": 8312,
+          "COPIED_FROM_ENTITY_ID": 8993,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 17
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 45
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 17
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 45
+          },
+          {
+            "Id": 955,
+            "Name": "USE_ALTERNATE_CARD_TEXT",
+            "Value": 1
+          },
+          {
+            "Id": 4540,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 8312
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8993
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG33_245",
+        "Name": "Twilight Watcher",
+        "ZonePosition": 0,
+        "Attack": 44,
+        "Health": 17,
+        "MaxHealth": 17,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 17,
+          "479": 44,
+          "HEALTH": 17,
+          "ATK": 44,
+          "LAST_AFFECTED_BY": 8277,
+          "COPIED_FROM_ENTITY_ID": 8996,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 17
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 44
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 17
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 44
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 8277
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8996
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG25_354",
+        "Name": "Titus Rivendare",
+        "ZonePosition": 0,
+        "Attack": 41,
+        "Health": 16,
+        "MaxHealth": 16,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "3085": 16,
+          "479": 41,
+          "HEALTH": 16,
+          "ATK": 41,
+          "LAST_AFFECTED_BY": 8277,
+          "COPIED_FROM_ENTITY_ID": 8999,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 16
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 41
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 16
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 41
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 8277
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8999
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 10,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "TB_BaconShop_HERO_92",
+      "Name": "Y'Shaarj"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 0,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 12,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 0,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 5,
+    "OpponentTechLevel": 0,
+    "PlayerBoard": [
+      {
+        "CardId": "BG34_731",
+        "Name": "Twilight Broodmother",
+        "ZonePosition": 1,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "NUM_TURNS_IN_PLAY": 4,
+          "CANT_ATTACK": 1,
+          "ZONE_POSITION": 1,
+          "851": 1,
+          "LAST_AFFECTED_BY": 10270,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "4472": 7,
+          "IS_EXTRA_TRIGGERED_POWER": 0,
+          "JUST_PLAYED": 0,
+          "3557": 3,
+          "SPAWN_TIME_COUNT": 1,
+          "1196": 0,
+          "EXHAUSTED": 0
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 4
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 1
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 10270
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 7
+          },
+          {
+            "Id": 4169,
+            "Name": "IS_EXTRA_TRIGGERED_POWER",
+            "Value": 0
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 0
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          }
+        ]
+      },
+      {
+        "CardId": "BG33_245",
+        "Name": "Twilight Watcher",
+        "ZonePosition": 5,
+        "Attack": 7,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "HAS_DRAG_TO_BUY": 0,
+          "BACON_OVERRIDE_BG_COST": 0,
+          "FROZEN": 0,
+          "COPIED_FROM_ENTITY_ID": 8965,
+          "3669": 0,
+          "NUM_TURNS_IN_PLAY": 4,
+          "CANT_ATTACK": 1,
+          "BACON_PAIR_CANDIDATE": 0,
+          "851": 1,
+          "LAST_AFFECTED_BY": 11235,
+          "1067": 0,
+          "1068": 0,
+          "CONTROLLER": 6,
+          "ZONE": 1,
+          "OUTGOING_DAMAGE_CAP": 1,
+          "ZONE_POSITION": 5,
+          "4472": 3,
+          "JUST_PLAYED": 0,
+          "3557": 2,
+          "SPAWN_TIME_COUNT": 1,
+          "1196": 0,
+          "EXHAUSTED": 0,
+          "479": 7,
+          "ATK": 7
+        },
+        "TagDetails": [
+          {
+            "Id": 2458,
+            "Name": "HAS_DRAG_TO_BUY",
+            "Value": 0
+          },
+          {
+            "Id": 2437,
+            "Name": "BACON_OVERRIDE_BG_COST",
+            "Value": 0
+          },
+          {
+            "Id": 260,
+            "Name": "FROZEN",
+            "Value": 0
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 8965
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 271,
+            "Name": "NUM_TURNS_IN_PLAY",
+            "Value": 4
+          },
+          {
+            "Id": 227,
+            "Name": "CANT_ATTACK",
+            "Value": 1
+          },
+          {
+            "Id": 3031,
+            "Name": "BACON_PAIR_CANDIDATE",
+            "Value": 0
+          },
+          {
+            "Id": 851,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 11235
+          },
+          {
+            "Id": 1067,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 1068,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 50,
+            "Name": "CONTROLLER",
+            "Value": 6
+          },
+          {
+            "Id": 49,
+            "Name": "ZONE",
+            "Value": 1
+          },
+          {
+            "Id": 273,
+            "Name": "OUTGOING_DAMAGE_CAP",
+            "Value": 1
+          },
+          {
+            "Id": 263,
+            "Name": "ZONE_POSITION",
+            "Value": 5
+          },
+          {
+            "Id": 4472,
+            "Name": "UNKNOWN",
+            "Value": 3
+          },
+          {
+            "Id": 261,
+            "Name": "JUST_PLAYED",
+            "Value": 0
+          },
+          {
+            "Id": 3557,
+            "Name": "UNKNOWN",
+            "Value": 2
+          },
+          {
+            "Id": 1556,
+            "Name": "SPAWN_TIME_COUNT",
+            "Value": 1
+          },
+          {
+            "Id": 1196,
+            "Name": "UNKNOWN",
+            "Value": 0
+          },
+          {
+            "Id": 43,
+            "Name": "EXHAUSTED",
+            "Value": 0
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 7
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 7
+          }
+        ]
+      }
+    ],
+    "OpponentBoard": [
+      {
+        "CardId": "BG34_694",
+        "Name": "Wintergrasp Ghoul",
+        "ZonePosition": 0,
+        "Attack": 18,
+        "Health": 7,
+        "MaxHealth": 7,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT",
+          "REBORN"
+        ],
+        "Tags": {
+          "3085": 7,
+          "REBORN": 1,
+          "TAUNT": 1,
+          "LAST_AFFECTED_BY": 10963,
+          "479": 18,
+          "3614": 1,
+          "3621": 1,
+          "HEALTH": 7,
+          "ATK": 18,
+          "COPIED_FROM_ENTITY_ID": 11622,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 7
+          },
+          {
+            "Id": 1085,
+            "Name": "REBORN",
+            "Value": 1
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 10963
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 18
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 7
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 18
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 11622
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_604",
+        "Name": "Heroic Underdog",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [
+          "REBORN"
+        ],
+        "Tags": {
+          "REBORN": 1,
+          "3619": 1,
+          "3621": 1,
+          "LAST_AFFECTED_BY": 3634,
+          "COPIED_FROM_ENTITY_ID": 11626,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 1085,
+            "Name": "REBORN",
+            "Value": 1
+          },
+          {
+            "Id": 3619,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 3634
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 11626
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_Giant_332",
+        "Name": "Timewarped Embalmer",
+        "ZonePosition": 0,
+        "Attack": 32,
+        "Health": 25,
+        "MaxHealth": 25,
+        "Damage": 0,
+        "Statuses": [
+          "TAUNT"
+        ],
+        "Tags": {
+          "3085": 25,
+          "TAUNT": 1,
+          "LAST_AFFECTED_BY": 10964,
+          "479": 32,
+          "3614": 1,
+          "HEALTH": 25,
+          "ATK": 32,
+          "4540": 1,
+          "COPIED_FROM_ENTITY_ID": 11628,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 3085,
+            "Name": "UNKNOWN",
+            "Value": 25
+          },
+          {
+            "Id": 190,
+            "Name": "TAUNT",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 10964
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 32
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 45,
+            "Name": "HEALTH",
+            "Value": 25
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 32
+          },
+          {
+            "Id": 4540,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 11628
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG25_001",
+        "Name": "Risen Rider",
+        "ZonePosition": 0,
+        "Attack": 9,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 11015,
+          "3614": 1,
+          "3621": 1,
+          "479": 9,
+          "ATK": 9,
+          "COPIED_FROM_ENTITY_ID": 11631,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 11015
+          },
+          {
+            "Id": 3614,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 9
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 9
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 11631
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG34_692",
+        "Name": "Forsaken Weaver",
+        "ZonePosition": 0,
+        "Attack": 10,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [],
+        "Tags": {
+          "LAST_AFFECTED_BY": 10444,
+          "479": 10,
+          "ATK": 10,
+          "COPIED_FROM_ENTITY_ID": 11632,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 10444
+          },
+          {
+            "Id": 479,
+            "Name": "UNKNOWN",
+            "Value": 10
+          },
+          {
+            "Id": 47,
+            "Name": "ATK",
+            "Value": 10
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 11632
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      },
+      {
+        "CardId": "BG25_354",
+        "Name": "Titus Rivendare",
+        "ZonePosition": 0,
+        "Attack": 0,
+        "Health": 0,
+        "MaxHealth": 0,
+        "Damage": 0,
+        "Statuses": [
+          "REBORN"
+        ],
+        "Tags": {
+          "REBORN": 1,
+          "3621": 1,
+          "LAST_AFFECTED_BY": 6365,
+          "COPIED_FROM_ENTITY_ID": 11633,
+          "3669": 1
+        },
+        "TagDetails": [
+          {
+            "Id": 1085,
+            "Name": "REBORN",
+            "Value": 1
+          },
+          {
+            "Id": 3621,
+            "Name": "UNKNOWN",
+            "Value": 1
+          },
+          {
+            "Id": 18,
+            "Name": "LAST_AFFECTED_BY",
+            "Value": 6365
+          },
+          {
+            "Id": 1565,
+            "Name": "COPIED_FROM_ENTITY_ID",
+            "Value": 11633
+          },
+          {
+            "Id": 3669,
+            "Name": "UNKNOWN",
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "Watcher",
+    "Outcome": "Tie"
+  },
+  {
+    "TurnNumber": 11,
+    "PlayerHero": {
+      "CardId": "TB_BaconShop_HERO_27_SKIN_D",
+      "Name": "Crystalsong Sindragosa"
+    },
+    "OpponentHero": {
+      "CardId": "BG31_HERO_802",
+      "Name": "Artanis"
+    },
+    "PlayerStartHealth": 0,
+    "PlayerStartArmor": 0,
+    "OpponentStartHealth": 0,
+    "OpponentStartArmor": 0,
+    "PlayerEndHealth": 0,
+    "PlayerEndArmor": 0,
+    "OpponentEndHealth": 0,
+    "OpponentEndArmor": 0,
+    "PlayerTechLevel": 5,
+    "OpponentTechLevel": 0,
+    "PlayerBoard": [],
+    "OpponentBoard": [],
+    "PlayerBoardSource": "PowerLog",
+    "OpponentBoardSource": "PowerLog",
+    "Outcome": null
+  }
+]
