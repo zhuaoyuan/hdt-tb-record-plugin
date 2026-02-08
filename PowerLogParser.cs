@@ -15,6 +15,8 @@ namespace HdtTbRecordPlugin
 {
 	public class PowerLogParser
 	{
+		// 解析 Power.log 的核心入口：维护实体状态、回合与战斗快照。
+		// 设计目标：以 Power.log 为主，HDT Core/Watcher 为辅，保证战斗回合信息完整。
 		// HDT 用于判断战棋战斗阶段切换的数值 Tag。
 		private const GameTag BaconCombatSetupTag = (GameTag)3533;
 		private const GameTag BaconSetupTag = (GameTag)2022;
@@ -34,6 +36,8 @@ namespace HdtTbRecordPlugin
 			GameTag.FROZEN,
 			GameTag.SILENCED
 		};
+		// 会触发“战斗快照补全”的关键 Tag。
+		// 只在战斗阶段、且当前回合快照不完整时启用刷新。
 		private readonly HashSet<GameTag> _snapshotRefreshTags = new HashSet<GameTag>
 		{
 			GameTag.ZONE,
@@ -45,13 +49,14 @@ namespace HdtTbRecordPlugin
 			GameTag.ARMOR
 		};
 
+		// 插件运行配置（输出路径、日志开关等）。
 		private PluginConfig _config = new PluginConfig();
 		// 当前正在构建的对局记录。
 		private GameRecord? _currentGame;
-		private int _gameEntityId;
-		private int _turnTag;
-		private int _turnNumber;
-		private bool _combatActive;
+		private int _gameEntityId; // GameEntity 的实体 id（用于 TURN/STATE）。
+		private int _turnTag; // Power.log 的 TURN Tag 原始值。
+		private int _turnNumber; // 战棋回合号（由 TURN 推导）。
+		private bool _combatActive; // 当前是否处于战斗阶段。
 		private readonly List<TurnItem> _turnItems = new List<TurnItem>();
 		private TurnItem? _currentTurnItem;
 		private int _currentOpponentPlayerId;
@@ -59,16 +64,17 @@ namespace HdtTbRecordPlugin
 		private int _localPlayerId;
 		private bool _gameWritten;
 		private bool _needsCombatRefresh;
-		private int _pendingTagEntityId;
-		private int _combatStartPlayerDamageTag;
-		private int _combatStartOpponentDamageTag;
-		private readonly Dictionary<int, int> _heroEntityDamageTag = new Dictionary<int, int>();
+		private int _pendingTagEntityId; // FULL_ENTITY / SHOW_ENTITY 之后，等待 tag= 行填充的实体。
+		private int _combatStartPlayerDamageTag; // 战斗开始时玩家英雄 DAMAGE 基线。
+		private int _combatStartOpponentDamageTag; // 战斗开始时对手英雄 DAMAGE 基线。
+		private readonly Dictionary<int, int> _heroEntityDamageTag = new Dictionary<int, int>(); // 记录英雄实体的 DAMAGE Tag（用于战斗伤害计算）。
 		private readonly object _watcherLock = new object();
-		private List<int> _watcherOpponentEntityIds = new List<int>();
-		private DateTime _watcherOpponentUpdatedUtc;
+		private List<int> _watcherOpponentEntityIds = new List<int>(); // 来自 Watcher 的对手随从实体列表。
+		private DateTime _watcherOpponentUpdatedUtc; // Watcher 数据最新更新时间（用于评估时效性）。
 		private readonly Dictionary<int, int> _playerIdToHeroEntityId = new Dictionary<int, int>();
 		private readonly Dictionary<int, int> _playerEntityIdToHeroEntityId = new Dictionary<int, int>();
-		private static readonly string RuntimeDebugLogPath = @"c:\projects\github\react-flask-hello\.cursor\debug.log";
+		// 运行期诊断日志（用于定位解析误差与时序问题）。
+		private static readonly string RuntimeDebugLogPath = @"c:\projects\github\hdt\hdt-tb-record-plugin\.cursor\debug.log";
 
 		public void Configure(PluginConfig config)
 		{
@@ -78,6 +84,8 @@ namespace HdtTbRecordPlugin
 
 		public void UpdateOpponentBoardFromWatcher(OpponentBoardArgs args)
 		{
+			// Watcher 提供的对手面板实体 id 列表（通常比 Power.log 更完整）。
+			// 仅在战斗阶段触发快照刷新，避免商店阶段干扰。
 			if(args == null)
 				return;
 			var ids = new List<int>();
@@ -147,6 +155,8 @@ namespace HdtTbRecordPlugin
 
 		public void ProcessLine(string line)
 		{
+			// Power.log 逐行处理入口，维护实体状态与回合状态。
+			// 处理顺序很关键：先解析 tag= 行 -> 再解析实体/Tag 变化。
 			if(string.IsNullOrWhiteSpace(line))
 				return;
 
@@ -186,6 +196,7 @@ namespace HdtTbRecordPlugin
 
 		private void StartNewGame()
 		{
+			// 开始新对局：写出上一局、清理缓存、初始化 GameRecord。
 			// 重置前先写出上一局（若存在）。
 			if(_currentGame != null && _turnItems.Count > 0)
 				WriteAndReset();
@@ -200,6 +211,7 @@ namespace HdtTbRecordPlugin
 
 		private void ResetState()
 		{
+			// 清理跨局缓存，避免实体/英雄映射与战斗状态污染新对局。
 			// 清空上一局的所有派生状态。
 			_entities.Clear();
 			_gameEntityId = 0;
@@ -218,6 +230,8 @@ namespace HdtTbRecordPlugin
 
 		private void UpdateLocalPlayerId()
 		{
+			// 通过 Core.Game 推断本地玩家 id。
+			// 若 Power.log 未完成映射，优先使用 Core 提供的结果。
 			// 使用 HDT 当前玩家 id（若可用），否则尝试推断。
 			var localId = ResolveLocalPlayerId();
 			if(localId > 0)
@@ -226,6 +240,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandleGameEntity(string line)
 		{
+			// 记录 GameEntity id，用于 TURN/STATE 等 Tag。
 			// 记录 GameEntity id，用于 TURN/STATE 等 Tag。
 			var match = LogConstants.PowerTaskList.GameEntityRegex.Match(line);
 			if(!match.Success)
@@ -239,6 +254,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandlePlayerEntity(string line)
 		{
+			// 记录玩家实体 id 与 PlayerId 映射，用于英雄、酒馆等级等信息定位。
 			// 记录玩家实体以及 PlayerId 映射。
 			var match = LogConstants.PowerTaskList.PlayerEntityRegex.Match(line);
 			if(!match.Success)
@@ -256,6 +272,8 @@ namespace HdtTbRecordPlugin
 
 		private bool HandleFullEntity(string line)
 		{
+			// FULL_ENTITY：实体创建，提供初始 zone、cardId。
+			// 记录 _pendingTagEntityId 以便后续 tag= 行填充。
 			// FULL_ENTITY 提供初始 zone 与 cardId。
 			var match = LogConstants.PowerTaskList.CreationRegex.Match(line);
 			if(!match.Success)
@@ -279,6 +297,8 @@ namespace HdtTbRecordPlugin
 
 		private bool HandleUpdatingEntity(string line)
 		{
+			// SHOW_ENTITY / CHANGE_ENTITY：暴露隐藏卡牌或替换实体 cardId。
+			// 记录 _pendingTagEntityId 以便后续 tag= 行填充。
 			// SHOW_ENTITY / CHANGE_ENTITY 可能揭示 cardId。
 			var match = LogConstants.PowerTaskList.UpdatingEntityRegex.Match(line);
 			if(!match.Success)
@@ -297,6 +317,8 @@ namespace HdtTbRecordPlugin
 
 		private bool HandleEntityTagLine(string line)
 		{
+			// 处理紧跟 FULL_ENTITY/SHOW_ENTITY 的 tag= 行。
+			// 这类行不走 TAG_CHANGE 正则，需要手动解析。
 			var trimmed = line.TrimStart();
 			if(!trimmed.StartsWith("tag=", StringComparison.Ordinal))
 				return false;
@@ -325,6 +347,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandleTagChange(string line)
 		{
+			// TAG_CHANGE 是 Power.log 的主干：驱动实体状态、回合状态与战斗切换。
 			// TAG_CHANGE 更新实体 Tag，并驱动快照生成。
 			var match = LogConstants.PowerTaskList.TagChangeRegex.Match(line);
 			if(!match.Success)
@@ -361,6 +384,7 @@ namespace HdtTbRecordPlugin
 			   && (entity.CardType == CardType.HERO || entity.CardType == CardType.PLAYER)
 			   && (entity.Zone == Zone.PLAY || entity.CardType == CardType.PLAYER))
 			{
+				// 记录英雄/玩家血量变化（调试与补全用），避免战斗结算漏数。
 				var localHeroEntityId = TryGetHeroEntityId(_localPlayerId);
 				if(localHeroEntityId <= 0)
 					localHeroEntityId = ResolveCoreHeroEntityId(_localPlayerId);
@@ -434,6 +458,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandleBlockStart(string line)
 		{
+			// BLOCK_START：可选写入原始事件，用于离线定位或回放。
 			// 原始 block 可选保存，便于离线解析。
 			var match = LogConstants.PowerTaskList.BlockStartRegex.Match(line);
 			if(!match.Success)
@@ -470,6 +495,7 @@ namespace HdtTbRecordPlugin
 
 		private void ApplyDerivedTag(EntityState entity, GameTag tag, int value)
 		{
+			// 将常用 Tag 同步到实体字段，避免频繁查询 Tags 字典。
 			// 将常用 Tag 值同步到字段以便快速访问。
 			switch(tag)
 			{
@@ -499,6 +525,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandleTurnTag(int entityId, GameTag tag, int value)
 		{
+			// TURN 只出现于 GameEntity，用于计算战棋回合号。
 			// TURN 存在于 GameEntity，用于计算战棋回合数。
 			if(entityId != _gameEntityId || tag != GameTag.TURN)
 				return;
@@ -508,6 +535,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandlePlayState(int entityId, GameTag tag, int value)
 		{
+			// 仅记录本地玩家的胜负结果（对手 PlayState 不可靠）。
 			// 本地玩家实体的 PlayState 决定胜/负/平。
 			if(_currentGame == null || tag != GameTag.PLAYSTATE)
 				return;
@@ -522,6 +550,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandleNextOpponent(GameTag tag, int value, EntityState entity)
 		{
+			// 战棋“下一对手”信息，用于战斗开始时关联对手快照。
 			// 记录下一位对手 id，用于关联战斗快照。
 			if(tag != GameTag.NEXT_OPPONENT_PLAYER_ID)
 				return;
@@ -543,6 +572,9 @@ namespace HdtTbRecordPlugin
 
 		private void HandleCombatState(GameTag tag, int prevValue, int value)
 		{
+			// 战斗阶段切换判定：
+			// - BaconCombatSetupTag: 1->0 表示进入战斗
+			// - BaconSetupTag: 1->0 表示退出战斗
 			// 通过战棋 setup 相关 Tag 判断战斗切换。
 			if(tag != BaconCombatSetupTag && tag != BaconSetupTag)
 				return;
@@ -620,6 +652,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandleHeroEntityTag(int entityId, GameTag tag, int value, EntityState entity)
 		{
+			// HERO_ENTITY：建立玩家与英雄实体的映射。
 			if(tag != GameTag.HERO_ENTITY)
 				return;
 			if(value <= 0)
@@ -634,6 +667,7 @@ namespace HdtTbRecordPlugin
 
 		private void HandleShopEvents(GameTag tag, int prevValue, int value, EntityState entity)
 		{
+			// 商店行为推断：仅在非战斗阶段记录。
 			// 尽力推断商店行为（非战斗阶段）。
 			if(_currentGame == null || !_config.RecordShopEvents)
 				return;
@@ -671,10 +705,13 @@ namespace HdtTbRecordPlugin
 
 		private void StartCombatSnapshot()
 		{
+			// 战斗开始：抓取当前双方阵容与英雄状态，生成回合快照。
+			// 该快照是后续伤害结算与结果判定的基线。
 			// 战斗开始时抓取双方阵容快照。
 			if(_currentGame == null || !(Core.Game?.IsBattlegroundsMatch ?? false))
 				return;
 
+			// 触发 HDT Core 对战棋面板的快照，提升后续读取成功率。
 			Core.Game?.SnapshotBattlegroundsBoardState();
 
 			var localId = ResolveLocalPlayerId();
@@ -693,6 +730,7 @@ namespace HdtTbRecordPlugin
 			var coreOpponentEntityId = Core.Game?.OpponentEntity?.Id ?? 0;
 			_combatStartPlayerDamageTag = 0;
 			_combatStartOpponentDamageTag = 0;
+			// 保存战斗开始时的英雄 DAMAGE，用于战斗结束时推导真实扣血量。
 			if(localHeroEntityId > 0 && _heroEntityDamageTag.TryGetValue(localHeroEntityId, out var localDamage))
 				_combatStartPlayerDamageTag = localDamage;
 			if(opponentHeroEntityId > 0 && _heroEntityDamageTag.TryGetValue(opponentHeroEntityId, out var opponentDamage))
@@ -758,6 +796,8 @@ namespace HdtTbRecordPlugin
 
 		private void EndCombatSnapshot()
 		{
+			// 战斗结束：优先从 HDT Core 获取英雄血量（更及时），再回退到 Power.log。
+			// 以战斗开始的基线计算本回合伤害与胜负。
 			// 通过战斗前后英雄血量差计算伤害。
 			// #region agent log
 			RuntimeDebugLog("H10", "PowerLogParser.cs:EndCombatSnapshot", "combat_end_enter",
@@ -771,8 +811,8 @@ namespace HdtTbRecordPlugin
 			// #endregion
 			if(_currentTurnItem == null)
 				return;
-			var currentPlayer = BuildHeroSnapshot(_localPlayerId);
-			var currentOpponent = BuildHeroSnapshot(_currentOpponentPlayerId);
+			var currentPlayer = BuildHeroSnapshotForCombatEnd(_localPlayerId, out var playerEndSource);
+			var currentOpponent = BuildHeroSnapshotForCombatEnd(_currentOpponentPlayerId, out var opponentEndSource);
 			var corePlayer = Core.Game?.Player;
 			var coreOpponent = Core.Game?.Opponent;
 			var corePlayerHero = corePlayer?.Hero;
@@ -798,7 +838,9 @@ namespace HdtTbRecordPlugin
 					coreOpponentHeroId = coreOpponentHero?.Id ?? 0,
 					coreOpponentHealth = coreOpponentHero?.GetTag(GameTag.HEALTH) ?? 0,
 					coreOpponentArmor = coreOpponentHero?.GetTag(GameTag.ARMOR) ?? 0,
-					coreOpponentHeroCardId = coreOpponentHero?.CardId
+					coreOpponentHeroCardId = coreOpponentHero?.CardId,
+					playerEndSource,
+					opponentEndSource
 				});
 			// #endregion
 			if(currentPlayer != null)
@@ -812,8 +854,11 @@ namespace HdtTbRecordPlugin
 				_currentTurnItem.OpponentEndArmor = currentOpponent.Armor;
 			}
 
-			var damageToPlayer = Math.Max(0, _currentTurnItem.PlayerStartHealth - (currentPlayer?.Health ?? 0));
-			var damageToOpponent = Math.Max(0, _currentTurnItem.OpponentStartHealth - (currentOpponent?.Health ?? 0));
+			// 用最终快照中的血量计算伤害，避免因为快照缺失而落入 0。
+			var playerEndHealth = currentPlayer?.Health ?? _currentTurnItem.PlayerEndHealth;
+			var opponentEndHealth = currentOpponent?.Health ?? _currentTurnItem.OpponentEndHealth;
+			var damageToPlayer = Math.Max(0, _currentTurnItem.PlayerStartHealth - playerEndHealth);
+			var damageToOpponent = Math.Max(0, _currentTurnItem.OpponentStartHealth - opponentEndHealth);
 
 			var outcome = "Tie";
 			if(damageToOpponent > 0 && damageToPlayer == 0)
@@ -828,8 +873,36 @@ namespace HdtTbRecordPlugin
 			_currentOpponentPlayerId = 0;
 		}
 
+		private HeroSnapshot? BuildHeroSnapshotForCombatEnd(int playerId, out string source)
+		{
+			// 战斗结束专用：优先读取 Core.Game 的英雄实体标签（更快更准）。
+			// 若 Core 数据不可用，则回退到 Power.log 解析。
+			source = "PowerLog";
+			if(playerId <= 0)
+				return null;
+			var coreHeroEntityId = ResolveCoreHeroEntityId(playerId);
+			var coreHeroEntity = TryGetCoreHeroEntity(coreHeroEntityId);
+			if(coreHeroEntity != null)
+			{
+				var coreHealth = GetTagValue(coreHeroEntity, GameTag.HEALTH);
+				var coreDamage = GetTagValue(coreHeroEntity, GameTag.DAMAGE);
+				var coreArmor = GetTagValue(coreHeroEntity, GameTag.ARMOR);
+				if(coreHealth > 0 || coreDamage > 0 || coreArmor > 0)
+				{
+					source = "HDTCore";
+					return BuildHeroSnapshotFromHdtEntity(coreHeroEntity, playerId);
+				}
+			}
+			var snapshot = BuildHeroSnapshot(playerId);
+			if(snapshot != null)
+				source = "PowerLog";
+			return snapshot;
+		}
+
 		private HeroSnapshot? BuildHeroSnapshot(int playerId)
 		{
+			// 通用英雄快照：优先 Power.log；必要时回退到 Core.Game。
+			// 该快照用于战斗开始、战斗刷新与非战斗场景。
 			// 根据玩家 id 定位对应英雄实体。
 			if(playerId <= 0)
 				return null;
@@ -888,6 +961,7 @@ namespace HdtTbRecordPlugin
 			var playerArmor = 0;
 			if(playerEntity != null)
 			{
+				// 玩家实体有时比英雄实体更完整，缺失时进行兜底覆盖。
 				playerHealth = GetTagValue(playerEntity, GameTag.HEALTH);
 				playerDamage = GetTagValue(playerEntity, GameTag.DAMAGE);
 				playerArmor = GetTagValue(playerEntity, GameTag.ARMOR);
@@ -904,6 +978,7 @@ namespace HdtTbRecordPlugin
 			var coreHeroEntityTags = TryGetCoreHeroEntity(heroEntityId);
 			if(coreHeroEntityTags != null)
 			{
+				// Power.log 解析不到血量时，尝试用 Core 的英雄实体补齐。
 				var coreHealth = GetTagValue(coreHeroEntityTags, GameTag.HEALTH);
 				var coreDamage = GetTagValue(coreHeroEntityTags, GameTag.DAMAGE);
 				var coreArmor = GetTagValue(coreHeroEntityTags, GameTag.ARMOR);
@@ -997,6 +1072,7 @@ namespace HdtTbRecordPlugin
 		private List<MinionSnapshot> BuildBoard(int playerId, bool allowWatcher, out string source)
 		{
 			// 为指定玩家构建有序的随从列表。
+			// 优先级：本地玩家用 Core.Player.Board；对手优先 Watcher -> HDT 快照 -> Power.log。
 			if(playerId <= 0)
 			{
 				source = "PowerLog";
@@ -1006,6 +1082,7 @@ namespace HdtTbRecordPlugin
 			var corePlayerId = Core.Game?.Player?.Id ?? 0;
 			if(!allowWatcher && corePlayerId == playerId)
 			{
+				// 本地玩家直接用 HDT Core 实体，时效性最佳。
 				var coreBoard = BuildBoardFromCorePlayer();
 				if(coreBoard.Count > 0)
 				{
@@ -1020,6 +1097,7 @@ namespace HdtTbRecordPlugin
 
 			if(allowWatcher && IsOpponentPlayerId(playerId))
 			{
+				// 对手优先使用 Watcher 的实体 id 列表（通常更完整）。
 				var watcherBoard = BuildBoardFromWatcher(playerId, out var watcherSource);
 				if(watcherBoard.Count > 0)
 				{
@@ -1044,6 +1122,7 @@ namespace HdtTbRecordPlugin
 
 			if(allowWatcher && IsOpponentPlayerId(playerId))
 			{
+				// 若 Watcher 无法解析，尝试 HDT 的战棋面板快照。
 				var hdtBoard = BuildBoardFromHdtSnapshot(playerId, out var hdtSource);
 				if(hdtBoard.Count > 0)
 				{
@@ -1066,6 +1145,7 @@ namespace HdtTbRecordPlugin
 				}
 			}
 
+			// 最后回退到 Power.log 解析的实体列表。
 			var minions = BuildBoardFromEntities(playerId);
 			if(!allowWatcher && minions.Count == 0)
 			{
@@ -1080,6 +1160,7 @@ namespace HdtTbRecordPlugin
 			}
 			if(minions.Count == 0)
 			{
+				// Power.log 没有拿到随从时，再兜底一次 HDT 快照（避免漏盘）。
 				var hdtBoard = BuildBoardFromHdtSnapshot(playerId, out var hdtSource);
 				if(hdtBoard.Count > 0)
 				{
@@ -1111,6 +1192,7 @@ namespace HdtTbRecordPlugin
 
 		private List<MinionSnapshot> BuildBoardFromEntities(int playerId)
 		{
+			// 基于 Power.log 还原的实体状态构建面板。
 			var minions = _entities.Values
 				.Where(e => GetController(e) == playerId && GetCardType(e) == CardType.MINION && GetEffectiveZone(e) == Zone.PLAY)
 				.OrderBy(e => GetEffectiveZonePosition(e))
@@ -1121,6 +1203,7 @@ namespace HdtTbRecordPlugin
 
 		private List<MinionSnapshot> BuildBoardFromCorePlayer()
 		{
+			// 使用 HDT Core 的本地玩家面板。
 			var player = Core.Game?.Player;
 			if(player == null)
 				return new List<MinionSnapshot>();
@@ -1133,6 +1216,8 @@ namespace HdtTbRecordPlugin
 
 		private List<MinionSnapshot> BuildBoardFromWatcher(int playerId, out string source)
 		{
+			// 基于 Watcher 提供的对手实体 id 列表解析面板。
+			// 若 Power.log 中缺实体，则尝试 Core.Game.Entities 兜底匹配。
 			source = "Watcher";
 			List<int> ids;
 			lock(_watcherLock)
@@ -1450,6 +1535,7 @@ namespace HdtTbRecordPlugin
 
 		private int GetController(EntityState entity)
 		{
+			// 战棋/佣兵等模式可能出现 LETTUCE_CONTROLLER，优先使用以兼容多模式日志。
 			var lettuceController = GetTagValue(entity, GameTag.LETTUCE_CONTROLLER);
 			if(lettuceController > 0)
 				return lettuceController;
@@ -1461,6 +1547,7 @@ namespace HdtTbRecordPlugin
 
 		private Zone GetEffectiveZone(EntityState entity)
 		{
+			// 优先使用 FAKE_ZONE（日志中常见的临时区位），再回退到真实 zone。
 			var fakeZone = GetTagValue(entity, GameTag.FAKE_ZONE);
 			if(fakeZone > 0)
 				return (Zone)fakeZone;
@@ -1472,6 +1559,7 @@ namespace HdtTbRecordPlugin
 
 		private int GetEffectiveZonePosition(EntityState entity)
 		{
+			// 优先使用 FAKE_ZONE_POSITION，确保面板排序稳定。
 			var fakePos = GetTagValue(entity, GameTag.FAKE_ZONE_POSITION);
 			if(fakePos > 0)
 				return fakePos;
@@ -1483,6 +1571,7 @@ namespace HdtTbRecordPlugin
 
 		private CardType GetCardType(EntityState entity)
 		{
+			// 优先用实体字段；缺失时用卡牌库反查 cardId。
 			if(entity.CardType != CardType.INVALID)
 				return entity.CardType;
 			if(!string.IsNullOrEmpty(entity.CardId))
@@ -1505,6 +1594,8 @@ namespace HdtTbRecordPlugin
 
 		private void RefreshCombatSnapshotIfNeeded(string reason, EntityState? entity, GameTag? tag)
 		{
+			// 仅在战斗阶段且当前回合快照不完整时刷新。
+			// 通过 Tag 过滤，避免高频刷新导致性能开销。
 			if(!_combatActive || _currentTurnItem == null || !_needsCombatRefresh)
 				return;
 			if(tag.HasValue && !_snapshotRefreshTags.Contains(tag.Value))
@@ -1521,6 +1612,7 @@ namespace HdtTbRecordPlugin
 
 		private void TryRefreshCurrentTurnSnapshot(string reason)
 		{
+			// 重新抓取双方英雄与面板快照，仅补全缺失字段。
 			if(_currentTurnItem == null)
 				return;
 
@@ -1601,6 +1693,7 @@ namespace HdtTbRecordPlugin
 
 		private string GetSnapshotMissingReason(TurnItem round)
 		{
+			// 记录快照缺失原因，用于决定是否继续刷新。
 			var reasons = new List<string>();
 			if(round.PlayerStartHealth <= 0 && round.PlayerStartArmor <= 0)
 				reasons.Add("playerHeroHpArmor");
@@ -1649,6 +1742,7 @@ namespace HdtTbRecordPlugin
 
 		private void WriteAndReset()
 		{
+			// 对局结束写出：仅在有回合数据时落盘，避免空文件。
 			// 至少包含一个回合快照才写出。
 			if(_currentGame == null || _turnItems.Count == 0)
 			{
@@ -1670,6 +1764,7 @@ namespace HdtTbRecordPlugin
 
 			if(Core.Game?.IsBattlegroundsMatch ?? false)
 			{
+				// 兜底填充战斗结束血量，避免最后一回合缺失。
 				ApplyEndHealthFallback();
 				// #region agent log
 				RuntimeDebugLog("H13", "PowerLogParser.cs:WriteAndReset", "write_turns_call",
@@ -1721,6 +1816,7 @@ namespace HdtTbRecordPlugin
 
 		private void ApplyEndHealthFallback()
 		{
+			// 若最后回合未能在战斗结束时写入终局血量，这里从 Core.Game 再补一次。
 			if(_turnItems.Count == 0)
 				return;
 			var lastTurn = _turnItems[_turnItems.Count - 1];
@@ -1755,6 +1851,7 @@ namespace HdtTbRecordPlugin
 			}
 			if(updated)
 			{
+				// 根据补齐后的血量重新计算胜负。
 				var damageToPlayer = Math.Max(0, lastTurn.PlayerStartHealth - lastTurn.PlayerEndHealth);
 				var damageToOpponent = Math.Max(0, lastTurn.OpponentStartHealth - lastTurn.OpponentEndHealth);
 				var outcome = "Tie";
@@ -1793,6 +1890,10 @@ namespace HdtTbRecordPlugin
 
 		private void ApplyEndHealthFromHeroTagChange(GameTag tag, int value, EntityState entity)
 		{
+			// 战斗阶段中，英雄血量/护甲/伤害 Tag 的变化可用于更新本回合结算血量。
+			// 商店阶段不处理，避免污染战斗结果。
+			if(!_combatActive)
+				return;
 			if(_turnItems.Count == 0)
 				return;
 			var lastTurn = _turnItems[_turnItems.Count - 1];
@@ -1846,6 +1947,7 @@ namespace HdtTbRecordPlugin
 			}
 			else if(tag == GameTag.DAMAGE)
 			{
+				// DAMAGE 为累计伤害值，需要减去战斗开始时的基线才能得到本回合扣血。
 				var healthTag = GetTagValue(entity, GameTag.HEALTH);
 				var baselineDamage = isPlayerHero ? _combatStartPlayerDamageTag : _combatStartOpponentDamageTag;
 				var damageDelta = Math.Max(0, value - baselineDamage);
@@ -1855,11 +1957,13 @@ namespace HdtTbRecordPlugin
 				var computedArmor = 0;
 				if(healthTag > 0)
 				{
+					// 若日志提供直接血量，则优先使用该值。
 					computedHealth = healthTag;
 					computedArmor = startArmor;
 				}
 				else
 				{
+					// 否则用伤害增量推导护甲/血量变化。
 					computedArmor = Math.Max(0, startArmor - damageDelta);
 					var healthDamage = Math.Max(0, damageDelta - startArmor);
 					computedHealth = Math.Max(0, startHealth - healthDamage);
