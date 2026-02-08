@@ -73,3 +73,4 @@ C:\projects\github\hdt-tb-record-plugin\bin\Release\net472\zh-TW\HearthstoneDeck
 c:\projects\github\hdt-tb-record-plugin\obj\Release\net472\hdt-tb-r.5680D411.Up2Date
 C:\projects\github\hdt-tb-record-plugin\obj\Release\net472\hdt-tb-record-plugin.dll
 C:\projects\github\hdt-tb-record-plugin\obj\Release\net472\hdt-tb-record-plugin.pdb
+c:\projects\github\hdt-tb-record-plugin\obj\Release\net472\hdt-tb-record-plugin.sourcelink.json

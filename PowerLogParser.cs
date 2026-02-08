@@ -5,9 +5,11 @@ using System.Linq;
 using HearthDb.Enums;
 using Hearthstone_Deck_Tracker;
 using Hearthstone_Deck_Tracker.Hearthstone;
+using HdtEntity = Hearthstone_Deck_Tracker.Hearthstone.Entities.Entity;
 using Hearthstone_Deck_Tracker.LogReader;
 using HdtTbRecordPlugin.Models;
 using HearthWatcher.EventArgs;
+using Newtonsoft.Json;
 
 namespace HdtTbRecordPlugin
 {
@@ -58,9 +60,15 @@ namespace HdtTbRecordPlugin
 		private bool _gameWritten;
 		private bool _needsCombatRefresh;
 		private int _pendingTagEntityId;
+		private int _combatStartPlayerDamageTag;
+		private int _combatStartOpponentDamageTag;
+		private readonly Dictionary<int, int> _heroEntityDamageTag = new Dictionary<int, int>();
 		private readonly object _watcherLock = new object();
 		private List<int> _watcherOpponentEntityIds = new List<int>();
 		private DateTime _watcherOpponentUpdatedUtc;
+		private readonly Dictionary<int, int> _playerIdToHeroEntityId = new Dictionary<int, int>();
+		private readonly Dictionary<int, int> _playerEntityIdToHeroEntityId = new Dictionary<int, int>();
+		private static readonly string RuntimeDebugLogPath = @"c:\projects\github\react-flask-hello\.cursor\debug.log";
 
 		public void Configure(PluginConfig config)
 		{
@@ -97,6 +105,18 @@ namespace HdtTbRecordPlugin
 
 			DebugLog($"watcher_opponent_board cards={boardCardCount} ids={string.Join(",", ids.Take(8))} " +
 				$"updated={_watcherOpponentUpdatedUtc:O}");
+
+			// #region agent log
+			RuntimeDebugLog("H3", "PowerLogParser.cs:UpdateOpponentBoardFromWatcher", "watcher_board_update",
+				new
+				{
+					boardCardCount,
+					idsCount = ids.Count,
+					firstIds = ids.Take(6).ToArray(),
+					combatActive = _combatActive,
+					updatedUtc = _watcherOpponentUpdatedUtc.ToString("O")
+				});
+			// #endregion
 
 			if(_combatActive)
 				RefreshCombatSnapshotIfNeeded("watcher", null, null);
@@ -192,13 +212,16 @@ namespace HdtTbRecordPlugin
 			_nextOpponentPlayerId = 0;
 			_needsCombatRefresh = false;
 			_pendingTagEntityId = 0;
+			_playerIdToHeroEntityId.Clear();
+			_playerEntityIdToHeroEntityId.Clear();
 		}
 
 		private void UpdateLocalPlayerId()
 		{
-			// 使用 HDT 当前玩家 id（若可用）。
-			if(Core.Game?.Player?.Id > 0)
-				_localPlayerId = Core.Game.Player.Id;
+			// 使用 HDT 当前玩家 id（若可用），否则尝试推断。
+			var localId = ResolveLocalPlayerId();
+			if(localId > 0)
+				_localPlayerId = localId;
 		}
 
 		private void HandleGameEntity(string line)
@@ -326,16 +349,87 @@ namespace HdtTbRecordPlugin
 
 			// 更新派生字段并处理特殊 Tag。
 			ApplyDerivedTag(entity, tag, value);
+			if(tag == GameTag.DAMAGE && entity.CardType == CardType.HERO)
+				_heroEntityDamageTag[entity.Id] = value;
 			HandleTurnTag(entityId, tag, value);
 			HandlePlayState(entityId, tag, value);
 			HandleNextOpponent(tag, value, entity);
 			HandleCombatState(tag, prevValue, value);
+			HandleHeroEntityTag(entityId, tag, value, entity);
 			HandleShopEvents(tag, prevValue, value, entity);
+			if((tag == GameTag.HEALTH || tag == GameTag.ARMOR || tag == GameTag.DAMAGE)
+			   && (entity.CardType == CardType.HERO || entity.CardType == CardType.PLAYER)
+			   && (entity.Zone == Zone.PLAY || entity.CardType == CardType.PLAYER))
+			{
+				var localHeroEntityId = TryGetHeroEntityId(_localPlayerId);
+				if(localHeroEntityId <= 0)
+					localHeroEntityId = ResolveCoreHeroEntityId(_localPlayerId);
+				var opponentHeroEntityId = TryGetHeroEntityId(_currentOpponentPlayerId);
+				if(opponentHeroEntityId <= 0)
+					opponentHeroEntityId = ResolveCoreHeroEntityId(_currentOpponentPlayerId);
+				var corePlayerHealth = Core.Game?.Player?.Hero?.GetTag(GameTag.HEALTH) ?? 0;
+				var corePlayerArmor = Core.Game?.Player?.Hero?.GetTag(GameTag.ARMOR) ?? 0;
+				var coreOpponentHealth = Core.Game?.Opponent?.Hero?.GetTag(GameTag.HEALTH) ?? 0;
+				var coreOpponentArmor = Core.Game?.Opponent?.Hero?.GetTag(GameTag.ARMOR) ?? 0;
+				var role = entity.Id == localHeroEntityId ? "player"
+					: entity.Id == opponentHeroEntityId ? "opponent"
+					: "unknown";
+				var healthTag = GetTagValue(entity, GameTag.HEALTH);
+				var armorTag = GetTagValue(entity, GameTag.ARMOR);
+				var damageTag = GetTagValue(entity, GameTag.DAMAGE);
+				// #region agent log
+				RuntimeDebugLog("H19", "PowerLogParser.cs:HandleTagChange", "hero_or_player_stat_change",
+					new
+					{
+						tag = tag.ToString(),
+						prevValue,
+						value,
+						entityId,
+						entityCardType = entity.CardType.ToString(),
+						entityPlayerId = entity.PlayerId,
+						entityController = entity.Controller,
+						role,
+						turnNumber = _turnNumber,
+						combatActive = _combatActive,
+						hasCurrentTurnItem = _currentTurnItem != null,
+						currentOpponentPlayerId = _currentOpponentPlayerId,
+						coreOpponentId = Core.Game?.Opponent?.Id ?? 0,
+						localHeroEntityId,
+						opponentHeroEntityId,
+						healthTag,
+						armorTag,
+						damageTag,
+						corePlayerHealth,
+						corePlayerArmor,
+						coreOpponentHealth,
+						coreOpponentArmor
+					});
+				// #endregion
+				if(entity.CardType == CardType.HERO)
+					ApplyEndHealthFromHeroTagChange(tag, value, entity);
+			}
 			RefreshCombatSnapshotIfNeeded("tag_change", entity, tag);
 
 			// 对局结束：写出记录。
 			if(tag == GameTag.STATE && value == (int)State.COMPLETE)
+			{
+				// #region agent log
+				RuntimeDebugLog("H20", "PowerLogParser.cs:HandleTagChange", "state_complete",
+					new
+					{
+						turnNumber = _turnNumber,
+						localPlayerId = _localPlayerId,
+						currentOpponentPlayerId = _currentOpponentPlayerId,
+						corePlayerId = Core.Game?.Player?.Id ?? 0,
+						coreOpponentId = Core.Game?.Opponent?.Id ?? 0,
+						corePlayerHealth = Core.Game?.Player?.Hero?.GetTag(GameTag.HEALTH) ?? 0,
+						corePlayerArmor = Core.Game?.Player?.Hero?.GetTag(GameTag.ARMOR) ?? 0,
+						coreOpponentHealth = Core.Game?.Opponent?.Hero?.GetTag(GameTag.HEALTH) ?? 0,
+						coreOpponentArmor = Core.Game?.Opponent?.Hero?.GetTag(GameTag.ARMOR) ?? 0
+					});
+				// #endregion
 				WriteAndReset();
+			}
 		}
 
 		private void HandleBlockStart(string line)
@@ -393,6 +487,12 @@ namespace HdtTbRecordPlugin
 					break;
 				case GameTag.PLAYER_ID:
 					entity.PlayerId = value;
+					if(_playerEntityIdToHeroEntityId.TryGetValue(entity.Id, out var heroEntityId))
+					{
+						_playerEntityIdToHeroEntityId.Remove(entity.Id);
+						if(heroEntityId > 0)
+							_playerIdToHeroEntityId[entity.PlayerId] = heroEntityId;
+					}
 					break;
 			}
 		}
@@ -428,6 +528,17 @@ namespace HdtTbRecordPlugin
 			if(_localPlayerId > 0 && entity.PlayerId != _localPlayerId)
 				return;
 			_nextOpponentPlayerId = value;
+
+			// #region agent log
+			RuntimeDebugLog("H1", "PowerLogParser.cs:HandleNextOpponent", "next_opponent_player_id",
+				new
+				{
+					value,
+					entityId = entity.Id,
+					entityPlayerId = entity.PlayerId,
+					localPlayerId = _localPlayerId
+				});
+			// #endregion
 		}
 
 		private void HandleCombatState(GameTag tag, int prevValue, int value)
@@ -436,16 +547,89 @@ namespace HdtTbRecordPlugin
 			if(tag != BaconCombatSetupTag && tag != BaconSetupTag)
 				return;
 
+			// #region agent log
+			RuntimeDebugLog("H11", "PowerLogParser.cs:HandleCombatState", "combat_state_transition",
+				new
+				{
+					tag = tag.ToString(),
+					prevValue,
+					value,
+					combatActive = _combatActive,
+					turnNumber = _turnNumber,
+					localPlayerId = _localPlayerId,
+					currentOpponentPlayerId = _currentOpponentPlayerId,
+					nextOpponentPlayerId = _nextOpponentPlayerId
+				});
+			// #endregion
+
 			if(tag == BaconCombatSetupTag && prevValue == 1 && value == 0)
 			{
+				if(_combatActive)
+					return;
+				// #region agent log
+				RuntimeDebugLog("H14", "PowerLogParser.cs:HandleCombatState", "combat_start_call",
+					new
+					{
+						tag = tag.ToString(),
+						prevValue,
+						value,
+						turnNumber = _turnNumber,
+						localPlayerId = _localPlayerId,
+						currentOpponentPlayerId = _currentOpponentPlayerId,
+						nextOpponentPlayerId = _nextOpponentPlayerId
+					});
+				// #endregion
 				_combatActive = true;
 				StartCombatSnapshot();
 			}
-			else if(tag == BaconCombatSetupTag && prevValue == 0 && value == 1)
+			else if(tag == BaconSetupTag && prevValue == 1 && value == 0)
 			{
+				if(!_combatActive)
+					return;
+				// #region agent log
+				RuntimeDebugLog("H14", "PowerLogParser.cs:HandleCombatState", "combat_end_call",
+					new
+					{
+						tag = tag.ToString(),
+						prevValue,
+						value,
+						turnNumber = _turnNumber,
+						localPlayerId = _localPlayerId,
+						currentOpponentPlayerId = _currentOpponentPlayerId,
+						nextOpponentPlayerId = _nextOpponentPlayerId,
+						corePlayerId = Core.Game?.Player?.Id ?? 0,
+						coreOpponentId = Core.Game?.Opponent?.Id ?? 0,
+						corePlayerHeroCardId = Core.Game?.Player?.Hero?.CardId,
+						coreOpponentHeroCardId = Core.Game?.Opponent?.Hero?.CardId
+					});
+				// #endregion
 				EndCombatSnapshot();
+				// #region agent log
+				RuntimeDebugLog("H14", "PowerLogParser.cs:HandleCombatState", "combat_end_done",
+					new
+					{
+						tag = tag.ToString(),
+						turnNumber = _turnNumber,
+						localPlayerId = _localPlayerId,
+						currentOpponentPlayerId = _currentOpponentPlayerId
+					});
+				// #endregion
 				_combatActive = false;
 			}
+		}
+
+		private void HandleHeroEntityTag(int entityId, GameTag tag, int value, EntityState entity)
+		{
+			if(tag != GameTag.HERO_ENTITY)
+				return;
+			if(value <= 0)
+				return;
+			if(entity.PlayerId > 0)
+			{
+				_playerIdToHeroEntityId[entity.PlayerId] = value;
+				return;
+			}
+			_playerEntityIdToHeroEntityId[entityId] = value;
 		}
 
 		private void HandleShopEvents(GameTag tag, int prevValue, int value, EntityState entity)
@@ -491,13 +675,57 @@ namespace HdtTbRecordPlugin
 			if(_currentGame == null || !(Core.Game?.IsBattlegroundsMatch ?? false))
 				return;
 
-			var localId = _localPlayerId > 0 ? _localPlayerId : Core.Game?.Player?.Id ?? 0;
+			Core.Game?.SnapshotBattlegroundsBoardState();
+
+			var localId = ResolveLocalPlayerId();
 			var opponentId = _nextOpponentPlayerId > 0 ? _nextOpponentPlayerId : Core.Game?.Opponent?.Id ?? 0;
 
 			var playerHeroSnapshot = BuildHeroSnapshot(localId);
 			var opponentHeroSnapshot = BuildHeroSnapshot(opponentId);
 			var playerBoard = BuildBoard(localId, allowWatcher: false, out var playerBoardSource);
 			var opponentBoard = BuildBoard(opponentId, allowWatcher: true, out var opponentBoardSource);
+
+			var localHeroEntityId = TryGetHeroEntityId(localId);
+			var opponentHeroEntityId = TryGetHeroEntityId(opponentId);
+			var localPlayerEntityId = TryGetPlayerEntity(localId)?.Id ?? 0;
+			var opponentPlayerEntityId = TryGetPlayerEntity(opponentId)?.Id ?? 0;
+			var corePlayerEntityId = Core.Game?.PlayerEntity?.Id ?? 0;
+			var coreOpponentEntityId = Core.Game?.OpponentEntity?.Id ?? 0;
+			_combatStartPlayerDamageTag = 0;
+			_combatStartOpponentDamageTag = 0;
+			if(localHeroEntityId > 0 && _heroEntityDamageTag.TryGetValue(localHeroEntityId, out var localDamage))
+				_combatStartPlayerDamageTag = localDamage;
+			if(opponentHeroEntityId > 0 && _heroEntityDamageTag.TryGetValue(opponentHeroEntityId, out var opponentDamage))
+				_combatStartOpponentDamageTag = opponentDamage;
+
+			// #region agent log
+			RuntimeDebugLog("H1", "PowerLogParser.cs:StartCombatSnapshot", "combat_start_ids",
+				new
+				{
+					turnNumber = _turnNumber,
+					localId,
+					localPlayerId = _localPlayerId,
+					nextOpponentPlayerId = _nextOpponentPlayerId,
+					coreOpponentId = Core.Game?.Opponent?.Id ?? 0,
+					corePlayerId = Core.Game?.Player?.Id ?? 0,
+					corePlayerEntityId,
+					coreOpponentEntityId,
+					entities = _entities.Count,
+					playerHeroMap = _playerIdToHeroEntityId.Count,
+					localHeroEntityId,
+					opponentHeroEntityId,
+					combatStartPlayerDamageTag = _combatStartPlayerDamageTag,
+					combatStartOpponentDamageTag = _combatStartOpponentDamageTag,
+					localPlayerEntityId,
+					opponentPlayerEntityId,
+					playerHeroCardId = playerHeroSnapshot?.CardId,
+					opponentHeroCardId = opponentHeroSnapshot?.CardId,
+					playerBoardCount = playerBoard.Count,
+					opponentBoardCount = opponentBoard.Count,
+					playerBoardSource,
+					opponentBoardSource
+				});
+			// #endregion
 			var round = new TurnItem
 			{
 				TurnNumber = _turnNumber,
@@ -520,6 +748,7 @@ namespace HdtTbRecordPlugin
 			_currentTurnItem = round;
 			var missingReason = GetSnapshotMissingReason(round);
 			_needsCombatRefresh = !string.IsNullOrEmpty(missingReason);
+			LogRoundSnapshot("combat_start", round);
 			DebugLog($"combat_start turn={_turnNumber} local={localId} opponent={opponentId} " +
 				$"playerHero={(playerHeroSnapshot != null ? "ok" : "null")} opponentHero={(opponentHeroSnapshot != null ? "ok" : "null")} " +
 				$"playerBoard={round.PlayerBoard.Count} opponentBoard={round.OpponentBoard.Count} " +
@@ -530,10 +759,48 @@ namespace HdtTbRecordPlugin
 		private void EndCombatSnapshot()
 		{
 			// 通过战斗前后英雄血量差计算伤害。
+			// #region agent log
+			RuntimeDebugLog("H10", "PowerLogParser.cs:EndCombatSnapshot", "combat_end_enter",
+				new
+				{
+					hasCurrentTurnItem = _currentTurnItem != null,
+					turnNumber = _currentTurnItem?.TurnNumber ?? 0,
+					localPlayerId = _localPlayerId,
+					opponentPlayerId = _currentOpponentPlayerId
+				});
+			// #endregion
 			if(_currentTurnItem == null)
 				return;
 			var currentPlayer = BuildHeroSnapshot(_localPlayerId);
 			var currentOpponent = BuildHeroSnapshot(_currentOpponentPlayerId);
+			var corePlayer = Core.Game?.Player;
+			var coreOpponent = Core.Game?.Opponent;
+			var corePlayerHero = corePlayer?.Hero;
+			var coreOpponentHero = coreOpponent?.Hero;
+			// #region agent log
+			RuntimeDebugLog("H10", "PowerLogParser.cs:EndCombatSnapshot", "combat_end_sources",
+				new
+				{
+					localPlayerId = _localPlayerId,
+					opponentPlayerId = _currentOpponentPlayerId,
+					playerHeroCardId = _currentTurnItem.PlayerHero?.CardId,
+					opponentHeroCardId = _currentTurnItem.OpponentHero?.CardId,
+					currentPlayerHealth = currentPlayer?.Health ?? 0,
+					currentPlayerArmor = currentPlayer?.Armor ?? 0,
+					currentOpponentHealth = currentOpponent?.Health ?? 0,
+					currentOpponentArmor = currentOpponent?.Armor ?? 0,
+					corePlayerId = corePlayer?.Id ?? 0,
+					coreOpponentId = coreOpponent?.Id ?? 0,
+					corePlayerHeroId = corePlayerHero?.Id ?? 0,
+					corePlayerHealth = corePlayerHero?.GetTag(GameTag.HEALTH) ?? 0,
+					corePlayerArmor = corePlayerHero?.GetTag(GameTag.ARMOR) ?? 0,
+					corePlayerHeroCardId = corePlayerHero?.CardId,
+					coreOpponentHeroId = coreOpponentHero?.Id ?? 0,
+					coreOpponentHealth = coreOpponentHero?.GetTag(GameTag.HEALTH) ?? 0,
+					coreOpponentArmor = coreOpponentHero?.GetTag(GameTag.ARMOR) ?? 0,
+					coreOpponentHeroCardId = coreOpponentHero?.CardId
+				});
+			// #endregion
 			if(currentPlayer != null)
 			{
 				_currentTurnItem.PlayerEndHealth = currentPlayer.Health;
@@ -567,19 +834,142 @@ namespace HdtTbRecordPlugin
 			if(playerId <= 0)
 				return null;
 
-			var hero = _entities.Values.FirstOrDefault(e =>
-				GetCardType(e) == CardType.HERO &&
-				GetEffectiveZone(e) == Zone.PLAY &&
-				(GetController(e) == playerId || e.PlayerId == playerId));
+			EntityState? hero = null;
+			var heroEntityId = TryGetHeroEntityId(playerId);
+			if(heroEntityId <= 0)
+			{
+				var coreHeroEntityId = ResolveCoreHeroEntityId(playerId);
+				if(coreHeroEntityId > 0)
+				{
+					heroEntityId = coreHeroEntityId;
+					if(!_playerIdToHeroEntityId.ContainsKey(playerId))
+						_playerIdToHeroEntityId[playerId] = coreHeroEntityId;
+				}
+			}
+			if(heroEntityId > 0 && _entities.TryGetValue(heroEntityId, out var mappedHero))
+				hero = mappedHero;
+			if(hero == null)
+			{
+				hero = _entities.Values.FirstOrDefault(e =>
+					GetCardType(e) == CardType.HERO &&
+					GetEffectiveZone(e) == Zone.PLAY &&
+					(GetController(e) == playerId || e.PlayerId == playerId));
+			}
 
 			if(hero == null)
+			{
+				var coreHeroEntity = TryGetCoreHeroEntity(heroEntityId);
+				if(coreHeroEntity != null)
+					return BuildHeroSnapshotFromHdtEntity(coreHeroEntity, playerId);
+
+				// #region agent log
+				RuntimeDebugLog("H5", "PowerLogParser.cs:BuildHeroSnapshot", "hero_snapshot_missing",
+					new
+					{
+						playerId,
+						heroEntityId,
+						corePlayerId = Core.Game?.Player?.Id ?? 0,
+						coreOpponentId = Core.Game?.Opponent?.Id ?? 0,
+						corePlayerEntityId = Core.Game?.PlayerEntity?.Id ?? 0,
+						coreOpponentEntityId = Core.Game?.OpponentEntity?.Id ?? 0,
+						coreHeroEntityId = ResolveCoreHeroEntityId(playerId),
+						entities = _entities.Count
+					});
+				// #endregion
 				return null;
+			}
 
 			var health = GetTagValue(hero, GameTag.HEALTH);
 			var damage = GetTagValue(hero, GameTag.DAMAGE);
 			var armor = GetTagValue(hero, GameTag.ARMOR);
+			var playerEntity = TryGetPlayerEntity(playerId);
+			var playerHealth = 0;
+			var playerDamage = 0;
+			var playerArmor = 0;
+			if(playerEntity != null)
+			{
+				playerHealth = GetTagValue(playerEntity, GameTag.HEALTH);
+				playerDamage = GetTagValue(playerEntity, GameTag.DAMAGE);
+				playerArmor = GetTagValue(playerEntity, GameTag.ARMOR);
+				if(health <= 0 && playerHealth > 0)
+				{
+					health = playerHealth;
+					damage = playerDamage;
+				}
+				if(armor <= 0 && playerArmor > 0)
+					armor = playerArmor;
+			}
 			var techLevel = GetPlayerTechLevel(playerId);
 			var card = Database.GetCardFromId(hero.CardId);
+			var coreHeroEntityTags = TryGetCoreHeroEntity(heroEntityId);
+			if(coreHeroEntityTags != null)
+			{
+				var coreHealth = GetTagValue(coreHeroEntityTags, GameTag.HEALTH);
+				var coreDamage = GetTagValue(coreHeroEntityTags, GameTag.DAMAGE);
+				var coreArmor = GetTagValue(coreHeroEntityTags, GameTag.ARMOR);
+				var shouldOverrideHealth = coreHealth > 0 && health == 0;
+				var shouldOverrideArmor = coreArmor > 0 && armor == 0;
+				if(shouldOverrideHealth || shouldOverrideArmor)
+				{
+					// #region agent log
+					RuntimeDebugLog("H6", "PowerLogParser.cs:BuildHeroSnapshot", "core_hero_tags",
+						new
+						{
+							playerId,
+							heroEntityId,
+							health,
+							damage,
+							armor,
+							coreHealth,
+							coreDamage,
+							coreArmor,
+							coreTagsCount = coreHeroEntityTags.Tags?.Count ?? 0
+						});
+					// #endregion
+					if(shouldOverrideHealth)
+					{
+						health = coreHealth;
+						damage = coreDamage;
+					}
+					if(shouldOverrideArmor)
+						armor = coreArmor;
+				}
+			}
+
+			var heroCardType = hero != null ? GetCardType(hero).ToString() : null;
+			var heroTagsCount = hero?.Tags?.Count ?? 0;
+			var playerEntityCardId = playerEntity?.CardId;
+			var playerEntityCardType = playerEntity != null ? GetCardType(playerEntity).ToString() : null;
+			var playerTagsCount = playerEntity?.Tags?.Count ?? 0;
+			var playerEntityHasPlayerIdTag = playerEntity != null && playerEntity.Tags.ContainsKey(GameTag.PLAYER_ID);
+
+			// #region agent log
+			RuntimeDebugLog("H2", "PowerLogParser.cs:BuildHeroSnapshot", "hero_snapshot",
+				new
+				{
+					playerId,
+					heroEntityId,
+					heroFound = hero != null,
+					cardId = hero?.CardId,
+					heroZone = hero != null ? GetEffectiveZone(hero).ToString() : null,
+					heroController = hero != null ? GetController(hero) : 0,
+					heroPlayerId = hero?.PlayerId ?? 0,
+					heroCardType,
+					heroTagsCount,
+					heroHealthTag = health,
+					heroDamageTag = damage,
+					heroArmorTag = armor,
+					techLevel,
+					playerEntityId = playerEntity?.Id ?? 0,
+					playerEntityCardId,
+					playerEntityCardType,
+					playerTagsCount,
+					playerEntityHasPlayerIdTag,
+					playerHealthTag = playerHealth,
+					playerDamageTag = playerDamage,
+					playerArmorTag = playerArmor
+				});
+			// #endregion
 
 			return new HeroSnapshot
 			{
@@ -613,18 +1003,109 @@ namespace HdtTbRecordPlugin
 				return new List<MinionSnapshot>();
 			}
 
+			var corePlayerId = Core.Game?.Player?.Id ?? 0;
+			if(!allowWatcher && corePlayerId == playerId)
+			{
+				var coreBoard = BuildBoardFromCorePlayer();
+				if(coreBoard.Count > 0)
+				{
+					source = "HDTPlayerBoard";
+					// #region agent log
+					RuntimeDebugLog("H8", "PowerLogParser.cs:BuildBoard", "board_from_core_player",
+						new { playerId, count = coreBoard.Count, source });
+					// #endregion
+					return coreBoard;
+				}
+			}
+
 			if(allowWatcher && IsOpponentPlayerId(playerId))
 			{
-				var watcherBoard = BuildBoardFromWatcher(out var watcherSource);
+				var watcherBoard = BuildBoardFromWatcher(playerId, out var watcherSource);
 				if(watcherBoard.Count > 0)
 				{
+					var watcherInfo = GetWatcherInfo();
 					source = watcherSource;
+					// #region agent log
+					RuntimeDebugLog("H3", "PowerLogParser.cs:BuildBoard", "board_from_watcher",
+						new
+						{
+							playerId,
+							count = watcherBoard.Count,
+							source = watcherSource,
+							allowWatcher,
+							isOpponent = IsOpponentPlayerId(playerId),
+							watcherIdsCount = watcherInfo.idsCount,
+							watcherUpdatedAgeMs = watcherInfo.ageMs
+						});
+					// #endregion
 					return watcherBoard;
 				}
 			}
 
+			if(allowWatcher && IsOpponentPlayerId(playerId))
+			{
+				var hdtBoard = BuildBoardFromHdtSnapshot(playerId, out var hdtSource);
+				if(hdtBoard.Count > 0)
+				{
+					var watcherInfo = GetWatcherInfo();
+					source = hdtSource;
+					// #region agent log
+					RuntimeDebugLog("H3", "PowerLogParser.cs:BuildBoard", "board_from_hdt_snapshot",
+						new
+						{
+							playerId,
+							count = hdtBoard.Count,
+							source = hdtSource,
+							allowWatcher,
+							isOpponent = IsOpponentPlayerId(playerId),
+							watcherIdsCount = watcherInfo.idsCount,
+							watcherUpdatedAgeMs = watcherInfo.ageMs
+						});
+					// #endregion
+					return hdtBoard;
+				}
+			}
+
 			var minions = BuildBoardFromEntities(playerId);
+			if(!allowWatcher && minions.Count == 0)
+			{
+				var coreBoardCount = GetCoreBoardCount(playerId);
+				if(coreBoardCount > 0)
+				{
+					// #region agent log
+					RuntimeDebugLog("H8", "PowerLogParser.cs:BuildBoard", "core_board_available",
+						new { playerId, coreBoardCount });
+					// #endregion
+				}
+			}
+			if(minions.Count == 0)
+			{
+				var hdtBoard = BuildBoardFromHdtSnapshot(playerId, out var hdtSource);
+				if(hdtBoard.Count > 0)
+				{
+					source = hdtSource;
+					// #region agent log
+					RuntimeDebugLog("H8", "PowerLogParser.cs:BuildBoard", "board_from_hdt_fallback",
+						new { playerId, count = hdtBoard.Count, source = hdtSource });
+					// #endregion
+					return hdtBoard;
+				}
+			}
+			var powerWatcherInfo = allowWatcher ? GetWatcherInfo() : (idsCount: 0, ageMs: -1L);
 			source = "PowerLog";
+			// #region agent log
+			RuntimeDebugLog("H4", "PowerLogParser.cs:BuildBoard", "board_from_powerlog",
+				new
+				{
+					playerId,
+					count = minions.Count,
+					source,
+					allowWatcher,
+					isOpponent = IsOpponentPlayerId(playerId),
+					watcherIdsCount = powerWatcherInfo.idsCount,
+					watcherUpdatedAgeMs = powerWatcherInfo.ageMs
+				});
+			// #endregion
 			return minions;
 		}
 
@@ -638,7 +1119,19 @@ namespace HdtTbRecordPlugin
 			return minions.Select(BuildMinionSnapshot).ToList();
 		}
 
-		private List<MinionSnapshot> BuildBoardFromWatcher(out string source)
+		private List<MinionSnapshot> BuildBoardFromCorePlayer()
+		{
+			var player = Core.Game?.Player;
+			if(player == null)
+				return new List<MinionSnapshot>();
+			return player.Board
+				.Where(e => e != null && e.IsMinion && e.IsInZone(Zone.PLAY))
+				.OrderBy(e => e.ZonePosition)
+				.Select(BuildMinionSnapshot)
+				.ToList();
+		}
+
+		private List<MinionSnapshot> BuildBoardFromWatcher(int playerId, out string source)
 		{
 			source = "Watcher";
 			List<int> ids;
@@ -647,29 +1140,92 @@ namespace HdtTbRecordPlugin
 				ids = _watcherOpponentEntityIds.ToList();
 			}
 
-			if(ids.Count == 0)
+			if(ids.Count == 0 || playerId <= 0)
 				return new List<MinionSnapshot>();
 
+			var parsedFoundCount = 0;
+			var parsedMinionCount = 0;
+			var parsedInPlayCount = 0;
+			var parsedControllerMatchCount = 0;
+			var coreFoundCount = 0;
+			var coreMinionInPlayCount = 0;
+			var coreControllerMatchCount = 0;
 			var minions = new List<MinionSnapshot>();
 			foreach(var id in ids)
 			{
 				if(!_entities.TryGetValue(id, out var entity))
 				{
+					if(Core.Game?.Entities.TryGetValue(id, out var coreMissingEntity) == true)
+					{
+						coreFoundCount++;
+						if(coreMissingEntity.IsMinion && coreMissingEntity.IsInZone(Zone.PLAY))
+							coreMinionInPlayCount++;
+						if(coreMissingEntity.IsControlledBy(playerId))
+							coreControllerMatchCount++;
+					}
 					continue;
 				}
+				parsedFoundCount++;
 				if(GetCardType(entity) != CardType.MINION)
 				{
 					continue;
 				}
+				parsedMinionCount++;
+				if(GetController(entity) != playerId)
+				{
+					continue;
+				}
+				parsedControllerMatchCount++;
+				if(GetEffectiveZone(entity) != Zone.PLAY)
+				{
+					continue;
+				}
+				parsedInPlayCount++;
 				minions.Add(BuildMinionSnapshot(entity));
 			}
+
+			// #region agent log
+			RuntimeDebugLog("H9", "PowerLogParser.cs:BuildBoardFromWatcher", "watcher_ids_resolution",
+				new
+				{
+					playerId,
+					idsCount = ids.Count,
+					parsedFoundCount,
+					parsedMinionCount,
+					parsedControllerMatchCount,
+					parsedInPlayCount,
+					coreFoundCount,
+					coreMinionInPlayCount,
+					coreControllerMatchCount
+				});
+			// #endregion
 
 			return minions.OrderBy(m => m.ZonePosition).ToList();
 		}
 
+		private List<MinionSnapshot> BuildBoardFromHdtSnapshot(int playerId, out string source)
+		{
+			source = "HDTBoardSnapshot";
+			var heroEntityId = TryGetHeroEntityId(playerId);
+			if(heroEntityId <= 0)
+				heroEntityId = ResolveCoreHeroEntityId(playerId);
+			if(heroEntityId <= 0)
+				return new List<MinionSnapshot>();
+			var snapshot = Core.Game?.GetBattlegroundsBoardStateFor(heroEntityId);
+			if(snapshot?.Entities == null || snapshot.Entities.Length == 0)
+				return new List<MinionSnapshot>();
+
+			return snapshot.Entities
+				.Where(e => e != null && e.IsMinion && e.IsInZone(Zone.PLAY))
+				.OrderBy(e => e.ZonePosition)
+				.Select(BuildMinionSnapshot)
+				.ToList();
+		}
+
 		private bool IsOpponentPlayerId(int playerId)
 		{
-			return playerId > 0 && (playerId == _currentOpponentPlayerId || playerId == _nextOpponentPlayerId);
+			var coreOpponentId = Core.Game?.Opponent?.Id ?? 0;
+			return playerId > 0 && (playerId == _currentOpponentPlayerId || playerId == _nextOpponentPlayerId || playerId == coreOpponentId);
 		}
 
 		private MinionSnapshot BuildMinionSnapshot(EntityState entity)
@@ -698,20 +1254,198 @@ namespace HdtTbRecordPlugin
 			};
 		}
 
+		private MinionSnapshot BuildMinionSnapshot(HdtEntity entity)
+		{
+			var card = Database.GetCardFromId(entity.CardId);
+			var atk = GetTagValue(entity, GameTag.ATK);
+			var health = GetTagValue(entity, GameTag.HEALTH);
+			var damage = GetTagValue(entity, GameTag.DAMAGE);
+			var statuses = _statusTags
+				.Where(t => GetTagValue(entity, t) > 0)
+				.Select(t => t.ToString())
+				.ToList();
+
+			return new MinionSnapshot
+			{
+				CardId = entity.CardId,
+				Name = card?.Name,
+				ZonePosition = entity.ZonePosition,
+				Attack = atk,
+				MaxHealth = health,
+				Damage = damage,
+				Health = Math.Max(0, health - damage),
+				Statuses = statuses,
+				Tags = ToTagMap(entity.Tags)
+			};
+		}
+
 		private int GetPlayerTechLevel(int playerId)
 		{
 			// 酒馆等级存储在玩家实体 Tag 中。
-			var playerEntity = _entities.Values.FirstOrDefault(e =>
-				e.PlayerId == playerId && e.Tags.ContainsKey(GameTag.PLAYER_TECH_LEVEL));
+			var playerEntity = TryGetPlayerEntity(playerId);
 			if(playerEntity == null)
+			{
+				var corePlayerEntity = ResolveCorePlayerEntity(playerId);
+				if(corePlayerEntity == null)
+					return 0;
+				return GetTagValue(corePlayerEntity, GameTag.PLAYER_TECH_LEVEL);
+			}
+			var techLevel = GetTagValue(playerEntity, GameTag.PLAYER_TECH_LEVEL);
+			if(techLevel == 0)
+			{
+				var corePlayerEntity = ResolveCorePlayerEntity(playerId);
+				var coreTech = corePlayerEntity != null ? GetTagValue(corePlayerEntity, GameTag.PLAYER_TECH_LEVEL) : 0;
+				if(coreTech > 0)
+				{
+					// #region agent log
+					RuntimeDebugLog("H7", "PowerLogParser.cs:GetPlayerTechLevel", "core_player_tech",
+						new { playerId, techLevel, coreTech });
+					// #endregion
+					techLevel = coreTech;
+				}
+			}
+			return techLevel;
+		}
+
+		private HdtEntity? TryGetCoreHeroEntity(int heroEntityId)
+		{
+			if(heroEntityId <= 0)
+				return null;
+			var entities = Core.Game?.Entities;
+			if(entities == null)
+				return null;
+			return entities.TryGetValue(heroEntityId, out var entity) ? entity : null;
+		}
+
+		private HdtEntity? ResolveCorePlayerEntity(int playerId)
+		{
+			var game = Core.Game;
+			if(game == null || playerId <= 0)
+				return null;
+			if(game.Player?.Id == playerId)
+				return game.PlayerEntity;
+			if(game.Opponent?.Id == playerId)
+				return game.OpponentEntity;
+			return null;
+		}
+
+		private int GetCoreBoardCount(int playerId)
+		{
+			var heroEntityId = ResolveCoreHeroEntityId(playerId);
+			if(heroEntityId <= 0)
 				return 0;
-			return GetTagValue(playerEntity, GameTag.PLAYER_TECH_LEVEL);
+			var snapshot = Core.Game?.GetBattlegroundsBoardStateFor(heroEntityId);
+			if(snapshot?.Entities == null)
+				return 0;
+			return snapshot.Entities.Count(e => e != null && e.IsMinion && e.IsInZone(Zone.PLAY));
+		}
+
+		private HeroSnapshot BuildHeroSnapshotFromHdtEntity(HdtEntity hero, int playerId)
+		{
+			var health = GetTagValue(hero, GameTag.HEALTH);
+			var damage = GetTagValue(hero, GameTag.DAMAGE);
+			var armor = GetTagValue(hero, GameTag.ARMOR);
+			var techLevel = GetPlayerTechLevel(playerId);
+			var card = Database.GetCardFromId(hero.CardId);
+			return new HeroSnapshot
+			{
+				CardId = hero.CardId,
+				Name = card?.Name,
+				Health = Math.Max(0, health - damage),
+				Armor = armor,
+				TechLevel = techLevel,
+				IsDead = health - damage <= 0,
+				Tags = ToTagMap(hero.Tags)
+			};
+		}
+
+		private EntityState? TryGetPlayerEntity(int playerId)
+		{
+			if(playerId <= 0)
+				return null;
+			return _entities.Values.FirstOrDefault(e =>
+				e.PlayerId == playerId && e.Tags.ContainsKey(GameTag.PLAYER_ID));
 		}
 
 		private int GetTagValue(EntityState entity, GameTag tag)
 		{
 			// 未出现的 Tag 默认 0。
 			return entity.Tags.TryGetValue(tag, out var value) ? value : 0;
+		}
+
+		private int GetTagValue(HdtEntity entity, GameTag tag)
+		{
+			return entity.Tags.TryGetValue(tag, out var value) ? value : 0;
+		}
+
+		private int TryGetHeroEntityId(int playerId)
+		{
+			if(playerId <= 0)
+				return 0;
+			if(_playerIdToHeroEntityId.TryGetValue(playerId, out var heroEntityId) && heroEntityId > 0)
+				return heroEntityId;
+			var hero = _entities.Values.FirstOrDefault(e =>
+				GetCardType(e) == CardType.HERO &&
+				GetEffectiveZone(e) == Zone.PLAY &&
+				(GetController(e) == playerId || e.PlayerId == playerId));
+			return hero?.Id ?? 0;
+		}
+
+		private int ResolveLocalPlayerId()
+		{
+			var localId = _localPlayerId > 0 ? _localPlayerId : 0;
+			if(localId <= 0)
+				localId = Core.Game?.Player?.Id ?? 0;
+			if(localId <= 0)
+				localId = TryGetPlayerIdFromCorePlayer(Core.Game?.Player);
+			if(localId <= 0)
+				localId = InferLocalPlayerIdFromEntities();
+			return localId;
+		}
+
+		private int TryGetPlayerIdFromCorePlayer(object? player)
+		{
+			if(player == null)
+				return 0;
+			var playerId = TryReadIntProperty(player, "PlayerId");
+			if(playerId > 0)
+				return playerId;
+			var entityId = TryReadIntProperty(player, "EntityId");
+			if(entityId <= 0)
+				entityId = TryReadIntProperty(player, "PlayerEntityId");
+			if(entityId > 0)
+				return TryGetPlayerIdFromEntity(entityId);
+			return 0;
+		}
+
+		private int InferLocalPlayerIdFromEntities()
+		{
+			if(_entities.Count == 0)
+				return 0;
+			var playerEntity = _entities.Values.FirstOrDefault(e =>
+				e.PlayerId > 0 && e.Tags.ContainsKey(GameTag.PLAYER_ID));
+			return playerEntity?.PlayerId ?? 0;
+		}
+
+		private int TryGetPlayerIdFromEntity(int entityId)
+		{
+			if(!_entities.TryGetValue(entityId, out var entity))
+				return 0;
+			if(entity.PlayerId > 0)
+				return entity.PlayerId;
+			var controller = GetController(entity);
+			if(controller > 0)
+				return controller;
+			var playerIdTag = GetTagValue(entity, GameTag.PLAYER_ID);
+			return playerIdTag > 0 ? playerIdTag : 0;
+		}
+
+		private int TryReadIntProperty(object target, string name)
+		{
+			var prop = target.GetType().GetProperty(name);
+			if(prop == null || prop.PropertyType != typeof(int))
+				return 0;
+			return (int)prop.GetValue(target);
 		}
 
 		private int GetController(EntityState entity)
@@ -790,7 +1524,7 @@ namespace HdtTbRecordPlugin
 			if(_currentTurnItem == null)
 				return;
 
-			var localId = _localPlayerId > 0 ? _localPlayerId : Core.Game?.Player?.Id ?? 0;
+			var localId = ResolveLocalPlayerId();
 			var opponentId = _currentOpponentPlayerId > 0 ? _currentOpponentPlayerId
 				: (_nextOpponentPlayerId > 0 ? _nextOpponentPlayerId : Core.Game?.Opponent?.Id ?? 0);
 
@@ -855,6 +1589,8 @@ namespace HdtTbRecordPlugin
 			var missingReason = GetSnapshotMissingReason(_currentTurnItem);
 			_needsCombatRefresh = !string.IsNullOrEmpty(missingReason);
 
+			if(updated)
+				LogRoundSnapshot($"combat_refresh:{reason}", _currentTurnItem);
 			DebugLog($"combat_refresh reason={reason} updated={(updated ? "yes" : "no")} " +
 				$"playerBoard={_currentTurnItem.PlayerBoard.Count} opponentBoard={_currentTurnItem.OpponentBoard.Count} " +
 				$"playerBoardSource={_currentTurnItem.PlayerBoardSource} opponentBoardSource={_currentTurnItem.OpponentBoardSource} " +
@@ -875,6 +1611,40 @@ namespace HdtTbRecordPlugin
 			if(round.OpponentBoard.Count == 0)
 				reasons.Add("opponentBoard");
 			return string.Join(",", reasons);
+		}
+
+		private void LogRoundSnapshot(string reason, TurnItem round)
+		{
+			if(round == null)
+				return;
+			var playerBoard = round.PlayerBoard
+				.OrderBy(m => m.ZonePosition)
+				.Select(m => $"{m.ZonePosition}:{m.CardId}")
+				.ToList();
+			var opponentBoard = round.OpponentBoard
+				.OrderBy(m => m.ZonePosition)
+				.Select(m => $"{m.ZonePosition}:{m.CardId}")
+				.ToList();
+
+			var message = $"round_snapshot reason={reason} turn={round.TurnNumber} " +
+				$"playerHp={round.PlayerStartHealth}/{round.PlayerStartArmor} opponentHp={round.OpponentStartHealth}/{round.OpponentStartArmor} " +
+				$"playerBoard={string.Join(",", playerBoard)} opponentBoard={string.Join(",", opponentBoard)}";
+			WriteRoundSnapshotLog(message);
+		}
+
+		private void WriteRoundSnapshotLog(string message)
+		{
+			try
+			{
+				var path = Path.Combine(PluginConfig.PluginDirectory, "round_snapshots.log");
+				var dir = Path.GetDirectoryName(path);
+				if(!string.IsNullOrEmpty(dir))
+					Directory.CreateDirectory(dir);
+				File.AppendAllText(path, $"[{DateTime.UtcNow:O}] {message}{Environment.NewLine}");
+			}
+			catch
+			{
+			}
 		}
 
 		private void WriteAndReset()
@@ -900,6 +1670,27 @@ namespace HdtTbRecordPlugin
 
 			if(Core.Game?.IsBattlegroundsMatch ?? false)
 			{
+				ApplyEndHealthFallback();
+				// #region agent log
+				RuntimeDebugLog("H13", "PowerLogParser.cs:WriteAndReset", "write_turns_call",
+					new
+					{
+						turnsCount = _turnItems.Count,
+						lastTurnNumber = _turnItems.Count > 0 ? _turnItems[_turnItems.Count - 1].TurnNumber : 0,
+						lastPlayerBoardCount = _turnItems.Count > 0 ? _turnItems[_turnItems.Count - 1].PlayerBoard.Count : 0,
+						lastOpponentBoardCount = _turnItems.Count > 0 ? _turnItems[_turnItems.Count - 1].OpponentBoard.Count : 0,
+						lastPlayerBoardSource = _turnItems.Count > 0 ? _turnItems[_turnItems.Count - 1].PlayerBoardSource : null,
+						lastOpponentBoardSource = _turnItems.Count > 0 ? _turnItems[_turnItems.Count - 1].OpponentBoardSource : null,
+						lastPlayerEndHealth = _turnItems.Count > 0 ? _turnItems[_turnItems.Count - 1].PlayerEndHealth : 0,
+						lastOpponentEndHealth = _turnItems.Count > 0 ? _turnItems[_turnItems.Count - 1].OpponentEndHealth : 0,
+						corePlayerId = Core.Game?.Player?.Id ?? 0,
+						coreOpponentId = Core.Game?.Opponent?.Id ?? 0,
+						corePlayerHealth = Core.Game?.Player?.Hero?.GetTag(GameTag.HEALTH) ?? 0,
+						corePlayerArmor = Core.Game?.Player?.Hero?.GetTag(GameTag.ARMOR) ?? 0,
+						coreOpponentHealth = Core.Game?.Opponent?.Hero?.GetTag(GameTag.HEALTH) ?? 0,
+						coreOpponentArmor = Core.Game?.Opponent?.Hero?.GetTag(GameTag.ARMOR) ?? 0
+					});
+				// #endregion
 				// 将 JSON 写入配置的输出目录。
 				_gameWritten = true;
 				JsonWriter.WriteTurns(_config.OutputDirectory, _currentGame, _turnItems);
@@ -925,6 +1716,229 @@ namespace HdtTbRecordPlugin
 			}
 			catch
 			{
+			}
+		}
+
+		private void ApplyEndHealthFallback()
+		{
+			if(_turnItems.Count == 0)
+				return;
+			var lastTurn = _turnItems[_turnItems.Count - 1];
+			var corePlayerHero = Core.Game?.Player?.Hero;
+			var coreOpponentHero = Core.Game?.Opponent?.Hero;
+			if(corePlayerHero == null || coreOpponentHero == null)
+				return;
+			var corePlayerHealth = corePlayerHero.GetTag(GameTag.HEALTH);
+			var corePlayerArmor = corePlayerHero.GetTag(GameTag.ARMOR);
+			var coreOpponentHealth = coreOpponentHero.GetTag(GameTag.HEALTH);
+			var coreOpponentArmor = coreOpponentHero.GetTag(GameTag.ARMOR);
+			var updated = false;
+			if(lastTurn.PlayerEndHealth == 0 && corePlayerHealth > 0)
+			{
+				lastTurn.PlayerEndHealth = corePlayerHealth;
+				updated = true;
+			}
+			if(lastTurn.PlayerEndArmor == 0 && corePlayerArmor > 0)
+			{
+				lastTurn.PlayerEndArmor = corePlayerArmor;
+				updated = true;
+			}
+			if(lastTurn.OpponentEndHealth == 0 && coreOpponentHealth > 0)
+			{
+				lastTurn.OpponentEndHealth = coreOpponentHealth;
+				updated = true;
+			}
+			if(lastTurn.OpponentEndArmor == 0 && coreOpponentArmor > 0)
+			{
+				lastTurn.OpponentEndArmor = coreOpponentArmor;
+				updated = true;
+			}
+			if(updated)
+			{
+				var damageToPlayer = Math.Max(0, lastTurn.PlayerStartHealth - lastTurn.PlayerEndHealth);
+				var damageToOpponent = Math.Max(0, lastTurn.OpponentStartHealth - lastTurn.OpponentEndHealth);
+				var outcome = "Tie";
+				if(damageToOpponent > 0 && damageToPlayer == 0)
+					outcome = "Win";
+				else if(damageToPlayer > 0 && damageToOpponent == 0)
+					outcome = "Loss";
+				lastTurn.Outcome = outcome;
+				// #region agent log
+				RuntimeDebugLog("H15", "PowerLogParser.cs:ApplyEndHealthFallback", "end_health_fallback",
+					new
+					{
+						turnNumber = lastTurn.TurnNumber,
+						playerHeroCardId = lastTurn.PlayerHero?.CardId,
+						opponentHeroCardId = lastTurn.OpponentHero?.CardId,
+						localPlayerId = _localPlayerId,
+						opponentPlayerId = _currentOpponentPlayerId,
+						coreOpponentId = Core.Game?.Opponent?.Id ?? 0,
+						playerEndHealth = lastTurn.PlayerEndHealth,
+						playerEndArmor = lastTurn.PlayerEndArmor,
+						opponentEndHealth = lastTurn.OpponentEndHealth,
+						opponentEndArmor = lastTurn.OpponentEndArmor,
+						playerStartHealth = lastTurn.PlayerStartHealth,
+						playerStartArmor = lastTurn.PlayerStartArmor,
+						opponentStartHealth = lastTurn.OpponentStartHealth,
+						opponentStartArmor = lastTurn.OpponentStartArmor,
+						corePlayerHealth,
+						corePlayerArmor,
+						coreOpponentHealth,
+						coreOpponentArmor,
+						outcome
+					});
+				// #endregion
+			}
+		}
+
+		private void ApplyEndHealthFromHeroTagChange(GameTag tag, int value, EntityState entity)
+		{
+			if(_turnItems.Count == 0)
+				return;
+			var lastTurn = _turnItems[_turnItems.Count - 1];
+			if(lastTurn == null)
+				return;
+			if(lastTurn.TurnNumber != _turnNumber)
+				return;
+			var heroCardId = entity.CardId;
+			var isPlayerHero = !string.IsNullOrEmpty(heroCardId) && heroCardId == lastTurn.PlayerHero?.CardId;
+			var isOpponentHero = !string.IsNullOrEmpty(heroCardId) && heroCardId == lastTurn.OpponentHero?.CardId;
+			if(!isPlayerHero && !isOpponentHero)
+			{
+				var localHeroEntityId = TryGetHeroEntityId(_localPlayerId);
+				if(localHeroEntityId <= 0)
+					localHeroEntityId = ResolveCoreHeroEntityId(_localPlayerId);
+				var opponentHeroEntityId = TryGetHeroEntityId(_currentOpponentPlayerId);
+				if(opponentHeroEntityId <= 0)
+					opponentHeroEntityId = ResolveCoreHeroEntityId(_currentOpponentPlayerId);
+				isPlayerHero = entity.Id == localHeroEntityId && localHeroEntityId > 0;
+				isOpponentHero = entity.Id == opponentHeroEntityId && opponentHeroEntityId > 0;
+			}
+			if(!isPlayerHero && !isOpponentHero)
+				return;
+
+			var updated = false;
+			if(tag == GameTag.HEALTH)
+			{
+				if(isPlayerHero && value > 0 && lastTurn.PlayerEndHealth != value)
+				{
+					lastTurn.PlayerEndHealth = value;
+					updated = true;
+				}
+				if(isOpponentHero && value > 0 && lastTurn.OpponentEndHealth != value)
+				{
+					lastTurn.OpponentEndHealth = value;
+					updated = true;
+				}
+			}
+			else if(tag == GameTag.ARMOR)
+			{
+				if(isPlayerHero && value >= 0 && lastTurn.PlayerEndArmor != value)
+				{
+					lastTurn.PlayerEndArmor = value;
+					updated = true;
+				}
+				if(isOpponentHero && value >= 0 && lastTurn.OpponentEndArmor != value)
+				{
+					lastTurn.OpponentEndArmor = value;
+					updated = true;
+				}
+			}
+			else if(tag == GameTag.DAMAGE)
+			{
+				var healthTag = GetTagValue(entity, GameTag.HEALTH);
+				var baselineDamage = isPlayerHero ? _combatStartPlayerDamageTag : _combatStartOpponentDamageTag;
+				var damageDelta = Math.Max(0, value - baselineDamage);
+				var startHealth = isPlayerHero ? lastTurn.PlayerStartHealth : lastTurn.OpponentStartHealth;
+				var startArmor = isPlayerHero ? lastTurn.PlayerStartArmor : lastTurn.OpponentStartArmor;
+				var computedHealth = 0;
+				var computedArmor = 0;
+				if(healthTag > 0)
+				{
+					computedHealth = healthTag;
+					computedArmor = startArmor;
+				}
+				else
+				{
+					computedArmor = Math.Max(0, startArmor - damageDelta);
+					var healthDamage = Math.Max(0, damageDelta - startArmor);
+					computedHealth = Math.Max(0, startHealth - healthDamage);
+				}
+				if(isPlayerHero)
+				{
+					if(lastTurn.PlayerEndHealth != computedHealth)
+					{
+						lastTurn.PlayerEndHealth = computedHealth;
+						updated = true;
+					}
+					if(lastTurn.PlayerEndArmor != computedArmor)
+					{
+						lastTurn.PlayerEndArmor = computedArmor;
+						updated = true;
+					}
+				}
+				if(isOpponentHero)
+				{
+					if(lastTurn.OpponentEndHealth != computedHealth)
+					{
+						lastTurn.OpponentEndHealth = computedHealth;
+						updated = true;
+					}
+					if(lastTurn.OpponentEndArmor != computedArmor)
+					{
+						lastTurn.OpponentEndArmor = computedArmor;
+						updated = true;
+					}
+				}
+				// #region agent log
+				RuntimeDebugLog("H21", "PowerLogParser.cs:ApplyEndHealthFromHeroTagChange", "end_health_from_damage",
+					new
+					{
+						turnNumber = lastTurn.TurnNumber,
+						heroCardId,
+						damage = value,
+						healthTag,
+						baselineDamage,
+						computedHealth,
+						computedArmor,
+						damageDelta,
+						startHealth,
+						startArmor,
+						playerEndHealth = lastTurn.PlayerEndHealth,
+						playerEndArmor = lastTurn.PlayerEndArmor,
+						opponentEndHealth = lastTurn.OpponentEndHealth,
+						opponentEndArmor = lastTurn.OpponentEndArmor
+					});
+				// #endregion
+			}
+
+			if(updated)
+			{
+				var damageToPlayer = Math.Max(0, lastTurn.PlayerStartHealth - lastTurn.PlayerEndHealth);
+				var damageToOpponent = Math.Max(0, lastTurn.OpponentStartHealth - lastTurn.OpponentEndHealth);
+				var outcome = "Tie";
+				if(damageToOpponent > 0 && damageToPlayer == 0)
+					outcome = "Win";
+				else if(damageToPlayer > 0 && damageToOpponent == 0)
+					outcome = "Loss";
+				lastTurn.Outcome = outcome;
+				// #region agent log
+				RuntimeDebugLog("H18", "PowerLogParser.cs:ApplyEndHealthFromHeroTagChange", "end_health_from_tag",
+					new
+					{
+						turnNumber = lastTurn.TurnNumber,
+						tag = tag.ToString(),
+						value,
+						heroCardId,
+						playerHeroCardId = lastTurn.PlayerHero?.CardId,
+						opponentHeroCardId = lastTurn.OpponentHero?.CardId,
+						playerEndHealth = lastTurn.PlayerEndHealth,
+						playerEndArmor = lastTurn.PlayerEndArmor,
+						opponentEndHealth = lastTurn.OpponentEndHealth,
+						opponentEndArmor = lastTurn.OpponentEndArmor,
+						outcome
+					});
+				// #endregion
 			}
 		}
 
@@ -961,6 +1975,53 @@ namespace HdtTbRecordPlugin
 			if(int.TryParse(rawTag, out var rawValue))
 				return (GameTag)rawValue;
 			return GameTagHelper.ParseEnum<GameTag>(rawTag);
+		}
+
+		private int ResolveCoreHeroEntityId(int playerId)
+		{
+			var game = Core.Game;
+			if(game == null || playerId <= 0)
+				return 0;
+			if(game.Player?.Id == playerId)
+				return game.PlayerEntity?.GetTag(GameTag.HERO_ENTITY) ?? 0;
+			if(game.Opponent?.Id == playerId)
+				return game.OpponentEntity?.GetTag(GameTag.HERO_ENTITY) ?? 0;
+			return 0;
+		}
+
+		private (int idsCount, long ageMs) GetWatcherInfo()
+		{
+			lock(_watcherLock)
+			{
+				var count = _watcherOpponentEntityIds.Count;
+				if(_watcherOpponentUpdatedUtc == default)
+					return (count, -1);
+				var age = DateTime.UtcNow - _watcherOpponentUpdatedUtc;
+				return (count, (long)age.TotalMilliseconds);
+			}
+		}
+
+		private void RuntimeDebugLog(string hypothesisId, string location, string message, object data)
+		{
+			try
+			{
+				var timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+				var payload = new
+				{
+					id = $"log_{timestamp}_{Guid.NewGuid():N}",
+					timestamp,
+					runId = "pre-fix",
+					hypothesisId,
+					location,
+					message,
+					data
+				};
+				var json = JsonConvert.SerializeObject(payload);
+				File.AppendAllText(RuntimeDebugLogPath, json + Environment.NewLine);
+			}
+			catch
+			{
+			}
 		}
 	}
 }
