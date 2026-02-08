@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9GBcxlZzLWA=",
+  "dgSpecHash": "GNpcYiwLooM=",
   "success": true,
-  "projectFilePath": "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
+  "projectFilePath": "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\controlzex\\3.0.2.4\\controlzex.3.0.2.4.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\deltacompressiondotnet\\1.1.0\\deltacompressiondotnet.1.1.0.nupkg.sha512",

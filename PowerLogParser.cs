@@ -68,13 +68,20 @@ namespace HdtTbRecordPlugin
 		private int _combatStartPlayerDamageTag; // 战斗开始时玩家英雄 DAMAGE 基线。
 		private int _combatStartOpponentDamageTag; // 战斗开始时对手英雄 DAMAGE 基线。
 		private readonly Dictionary<int, int> _heroEntityDamageTag = new Dictionary<int, int>(); // 记录英雄实体的 DAMAGE Tag（用于战斗伤害计算）。
+		private bool _pendingCombatEnd; // 战斗结束后等待最终血量/护甲/伤害 Tag。
+		private int _pendingCombatEndTurnNumber;
+		private int _pendingCombatEndLocalPlayerId;
+		private int _pendingCombatEndOpponentPlayerId;
+		private DateTime _pendingCombatEndAtUtc;
+		private bool _pendingCombatEndPlayerResolved;
+		private bool _pendingCombatEndOpponentResolved;
 		private readonly object _watcherLock = new object();
 		private List<int> _watcherOpponentEntityIds = new List<int>(); // 来自 Watcher 的对手随从实体列表。
 		private DateTime _watcherOpponentUpdatedUtc; // Watcher 数据最新更新时间（用于评估时效性）。
 		private readonly Dictionary<int, int> _playerIdToHeroEntityId = new Dictionary<int, int>();
 		private readonly Dictionary<int, int> _playerEntityIdToHeroEntityId = new Dictionary<int, int>();
 		// 运行期诊断日志（用于定位解析误差与时序问题）。
-		private static readonly string RuntimeDebugLogPath = @"c:\projects\github\hdt\hdt-tb-record-plugin\.cursor\debug.log";
+		private static readonly string RuntimeDebugLogPath = @"c:\projects\github\hdt\.cursor\debug.log";
 
 		public void Configure(PluginConfig config)
 		{
@@ -224,6 +231,13 @@ namespace HdtTbRecordPlugin
 			_nextOpponentPlayerId = 0;
 			_needsCombatRefresh = false;
 			_pendingTagEntityId = 0;
+			_pendingCombatEnd = false;
+			_pendingCombatEndTurnNumber = 0;
+			_pendingCombatEndLocalPlayerId = 0;
+			_pendingCombatEndOpponentPlayerId = 0;
+			_pendingCombatEndAtUtc = default;
+			_pendingCombatEndPlayerResolved = false;
+			_pendingCombatEndOpponentResolved = false;
 			_playerIdToHeroEntityId.Clear();
 			_playerEntityIdToHeroEntityId.Clear();
 		}
@@ -429,6 +443,22 @@ namespace HdtTbRecordPlugin
 						coreOpponentArmor
 					});
 				// #endregion
+				// #region agent log
+				RuntimeDebugLog("H27", "PowerLogParser.cs:HandleTagChange", "hero_or_player_stat_samples",
+					new
+					{
+						tag = tag.ToString(),
+						entityId,
+						turnNumber = _turnNumber,
+						combatActive = _combatActive,
+						pendingCombatEnd = _pendingCombatEnd,
+						pendingTurnNumber = _pendingCombatEndTurnNumber,
+						localPlayerId = _localPlayerId,
+						opponentPlayerId = _currentOpponentPlayerId,
+						localSample = BuildHeroStatSample(_localPlayerId),
+						opponentSample = BuildHeroStatSample(_currentOpponentPlayerId)
+					});
+				// #endregion
 				if(entity.CardType == CardType.HERO)
 					ApplyEndHealthFromHeroTagChange(tag, value, entity);
 			}
@@ -450,6 +480,17 @@ namespace HdtTbRecordPlugin
 						corePlayerArmor = Core.Game?.Player?.Hero?.GetTag(GameTag.ARMOR) ?? 0,
 						coreOpponentHealth = Core.Game?.Opponent?.Hero?.GetTag(GameTag.HEALTH) ?? 0,
 						coreOpponentArmor = Core.Game?.Opponent?.Hero?.GetTag(GameTag.ARMOR) ?? 0
+					});
+				// #endregion
+				// #region agent log
+				RuntimeDebugLog("H27", "PowerLogParser.cs:HandleTagChange", "state_complete_samples",
+					new
+					{
+						turnNumber = _turnNumber,
+						localPlayerId = _localPlayerId,
+						opponentPlayerId = _currentOpponentPlayerId,
+						localSample = BuildHeroStatSample(_localPlayerId),
+						opponentSample = BuildHeroStatSample(_currentOpponentPlayerId)
 					});
 				// #endregion
 				WriteAndReset();
@@ -635,6 +676,17 @@ namespace HdtTbRecordPlugin
 						coreOpponentHeroCardId = Core.Game?.Opponent?.Hero?.CardId
 					});
 				// #endregion
+				// #region agent log
+				RuntimeDebugLog("H27", "PowerLogParser.cs:HandleCombatState", "combat_end_call_samples",
+					new
+					{
+						turnNumber = _turnNumber,
+						localPlayerId = _localPlayerId,
+						opponentPlayerId = _currentOpponentPlayerId,
+						localSample = BuildHeroStatSample(_localPlayerId),
+						opponentSample = BuildHeroStatSample(_currentOpponentPlayerId)
+					});
+				// #endregion
 				EndCombatSnapshot();
 				// #region agent log
 				RuntimeDebugLog("H14", "PowerLogParser.cs:HandleCombatState", "combat_end_done",
@@ -644,6 +696,17 @@ namespace HdtTbRecordPlugin
 						turnNumber = _turnNumber,
 						localPlayerId = _localPlayerId,
 						currentOpponentPlayerId = _currentOpponentPlayerId
+					});
+				// #endregion
+				// #region agent log
+				RuntimeDebugLog("H27", "PowerLogParser.cs:HandleCombatState", "combat_end_done_samples",
+					new
+					{
+						turnNumber = _turnNumber,
+						localPlayerId = _localPlayerId,
+						opponentPlayerId = _currentOpponentPlayerId,
+						localSample = BuildHeroStatSample(_localPlayerId),
+						opponentSample = BuildHeroStatSample(_currentOpponentPlayerId)
 					});
 				// #endregion
 				_combatActive = false;
@@ -710,6 +773,15 @@ namespace HdtTbRecordPlugin
 			// 战斗开始时抓取双方阵容快照。
 			if(_currentGame == null || !(Core.Game?.IsBattlegroundsMatch ?? false))
 				return;
+
+			// 新战斗开始时清空上一场的结算等待状态。
+			_pendingCombatEnd = false;
+			_pendingCombatEndTurnNumber = 0;
+			_pendingCombatEndLocalPlayerId = 0;
+			_pendingCombatEndOpponentPlayerId = 0;
+			_pendingCombatEndAtUtc = default;
+			_pendingCombatEndPlayerResolved = false;
+			_pendingCombatEndOpponentResolved = false;
 
 			// 触发 HDT Core 对战棋面板的快照，提升后续读取成功率。
 			Core.Game?.SnapshotBattlegroundsBoardState();
@@ -843,6 +915,17 @@ namespace HdtTbRecordPlugin
 					opponentEndSource
 				});
 			// #endregion
+			// #region agent log
+			RuntimeDebugLog("H27", "PowerLogParser.cs:EndCombatSnapshot", "combat_end_samples",
+				new
+				{
+					turnNumber = _currentTurnItem.TurnNumber,
+					localPlayerId = _localPlayerId,
+					opponentPlayerId = _currentOpponentPlayerId,
+					localSample = BuildHeroStatSample(_localPlayerId),
+					opponentSample = BuildHeroStatSample(_currentOpponentPlayerId)
+				});
+			// #endregion
 			if(currentPlayer != null)
 			{
 				_currentTurnItem.PlayerEndHealth = currentPlayer.Health;
@@ -867,6 +950,45 @@ namespace HdtTbRecordPlugin
 				outcome = "Loss";
 
 			_currentTurnItem.Outcome = outcome;
+			_pendingCombatEnd = true;
+			_pendingCombatEndTurnNumber = _currentTurnItem.TurnNumber;
+			_pendingCombatEndLocalPlayerId = _localPlayerId;
+			_pendingCombatEndOpponentPlayerId = _currentOpponentPlayerId;
+			_pendingCombatEndAtUtc = DateTime.UtcNow;
+			_pendingCombatEndPlayerResolved = false;
+			_pendingCombatEndOpponentResolved = false;
+			// #region agent log
+			RuntimeDebugLog("H25", "PowerLogParser.cs:EndCombatSnapshot", "combat_end_pending",
+				new
+				{
+					turnNumber = _pendingCombatEndTurnNumber,
+					localPlayerId = _pendingCombatEndLocalPlayerId,
+					opponentPlayerId = _pendingCombatEndOpponentPlayerId,
+					pendingAtUtc = _pendingCombatEndAtUtc.ToString("O")
+				});
+			// #endregion
+			// #region agent log
+			RuntimeDebugLog("H23", "PowerLogParser.cs:EndCombatSnapshot", "combat_end_outcome",
+				new
+				{
+					turnNumber = _currentTurnItem.TurnNumber,
+					playerStartHealth = _currentTurnItem.PlayerStartHealth,
+					playerStartArmor = _currentTurnItem.PlayerStartArmor,
+					opponentStartHealth = _currentTurnItem.OpponentStartHealth,
+					opponentStartArmor = _currentTurnItem.OpponentStartArmor,
+					playerEndHealth = _currentTurnItem.PlayerEndHealth,
+					playerEndArmor = _currentTurnItem.PlayerEndArmor,
+					opponentEndHealth = _currentTurnItem.OpponentEndHealth,
+					opponentEndArmor = _currentTurnItem.OpponentEndArmor,
+					playerEndHealthComputed = playerEndHealth,
+					opponentEndHealthComputed = opponentEndHealth,
+					damageToPlayer,
+					damageToOpponent,
+					outcome,
+					combatStartPlayerDamageTag = _combatStartPlayerDamageTag,
+					combatStartOpponentDamageTag = _combatStartOpponentDamageTag
+				});
+			// #endregion
 			DebugLog($"combat_end turn={_currentTurnItem.TurnNumber} outcome={outcome} " +
 				$"playerEndHp={_currentTurnItem.PlayerEndHealth} opponentEndHp={_currentTurnItem.OpponentEndHealth}");
 			_currentTurnItem = null;
@@ -882,6 +1004,18 @@ namespace HdtTbRecordPlugin
 				return null;
 			var coreHeroEntityId = ResolveCoreHeroEntityId(playerId);
 			var coreHeroEntity = TryGetCoreHeroEntity(coreHeroEntityId);
+			// #region agent log
+			RuntimeDebugLog("H22", "PowerLogParser.cs:BuildHeroSnapshotForCombatEnd", "combat_end_hero_probe",
+				new
+				{
+					playerId,
+					coreHeroEntityId,
+					coreHeroFound = coreHeroEntity != null,
+					coreHealth = coreHeroEntity != null ? GetTagValue(coreHeroEntity, GameTag.HEALTH) : 0,
+					coreDamage = coreHeroEntity != null ? GetTagValue(coreHeroEntity, GameTag.DAMAGE) : 0,
+					coreArmor = coreHeroEntity != null ? GetTagValue(coreHeroEntity, GameTag.ARMOR) : 0
+				});
+			// #endregion
 			if(coreHeroEntity != null)
 			{
 				var coreHealth = GetTagValue(coreHeroEntity, GameTag.HEALTH);
@@ -1786,6 +1920,18 @@ namespace HdtTbRecordPlugin
 						coreOpponentArmor = Core.Game?.Opponent?.Hero?.GetTag(GameTag.ARMOR) ?? 0
 					});
 				// #endregion
+				// #region agent log
+				RuntimeDebugLog("H27", "PowerLogParser.cs:WriteAndReset", "write_turns_samples",
+					new
+					{
+						turnsCount = _turnItems.Count,
+						lastTurnNumber = _turnItems.Count > 0 ? _turnItems[_turnItems.Count - 1].TurnNumber : 0,
+						localPlayerId = _localPlayerId,
+						opponentPlayerId = _currentOpponentPlayerId,
+						localSample = BuildHeroStatSample(_localPlayerId),
+						opponentSample = BuildHeroStatSample(_currentOpponentPlayerId)
+					});
+				// #endregion
 				// 将 JSON 写入配置的输出目录。
 				_gameWritten = true;
 				JsonWriter.WriteTurns(_config.OutputDirectory, _currentGame, _turnItems);
@@ -1892,14 +2038,16 @@ namespace HdtTbRecordPlugin
 		{
 			// 战斗阶段中，英雄血量/护甲/伤害 Tag 的变化可用于更新本回合结算血量。
 			// 商店阶段不处理，避免污染战斗结果。
-			if(!_combatActive)
+			var allowPostCombat = ShouldAllowPostCombatEndUpdate();
+			if(!_combatActive && !allowPostCombat)
 				return;
 			if(_turnItems.Count == 0)
 				return;
 			var lastTurn = _turnItems[_turnItems.Count - 1];
 			if(lastTurn == null)
 				return;
-			if(lastTurn.TurnNumber != _turnNumber)
+			var effectiveTurnNumber = allowPostCombat ? _pendingCombatEndTurnNumber : _turnNumber;
+			if(lastTurn.TurnNumber != effectiveTurnNumber)
 				return;
 			var heroCardId = entity.CardId;
 			var isPlayerHero = !string.IsNullOrEmpty(heroCardId) && heroCardId == lastTurn.PlayerHero?.CardId;
@@ -1915,6 +2063,27 @@ namespace HdtTbRecordPlugin
 				isPlayerHero = entity.Id == localHeroEntityId && localHeroEntityId > 0;
 				isOpponentHero = entity.Id == opponentHeroEntityId && opponentHeroEntityId > 0;
 			}
+			// #region agent log
+			RuntimeDebugLog("H24", "PowerLogParser.cs:ApplyEndHealthFromHeroTagChange", "end_health_tag_match",
+				new
+				{
+					turnNumber = lastTurn.TurnNumber,
+					tag = tag.ToString(),
+					value,
+					entityId = entity.Id,
+					entityCardId = entity.CardId,
+					entityPlayerId = entity.PlayerId,
+					localPlayerId = _localPlayerId,
+					currentOpponentPlayerId = _currentOpponentPlayerId,
+					playerHeroCardId = lastTurn.PlayerHero?.CardId,
+					opponentHeroCardId = lastTurn.OpponentHero?.CardId,
+					isPlayerHero,
+					isOpponentHero,
+					combatActive = _combatActive,
+					allowPostCombat,
+					pendingTurnNumber = _pendingCombatEndTurnNumber
+				});
+			// #endregion
 			if(!isPlayerHero && !isOpponentHero)
 				return;
 
@@ -1963,10 +2132,10 @@ namespace HdtTbRecordPlugin
 				}
 				else
 				{
-					// 否则用伤害增量推导护甲/血量变化。
-					computedArmor = Math.Max(0, startArmor - damageDelta);
-					var healthDamage = Math.Max(0, damageDelta - startArmor);
-					computedHealth = Math.Max(0, startHealth - healthDamage);
+					// 否则用伤害增量推导血量变化（DAMAGE 视为扣到生命值）。
+					// 护甲是否减少由 ARMOR tag 变化负责。
+					computedArmor = startArmor;
+					computedHealth = Math.Max(0, startHealth - damageDelta);
 				}
 				if(isPlayerHero)
 				{
@@ -2026,6 +2195,44 @@ namespace HdtTbRecordPlugin
 				else if(damageToPlayer > 0 && damageToOpponent == 0)
 					outcome = "Loss";
 				lastTurn.Outcome = outcome;
+				if(allowPostCombat)
+				{
+					if(isPlayerHero)
+						_pendingCombatEndPlayerResolved = true;
+					if(isOpponentHero)
+						_pendingCombatEndOpponentResolved = true;
+					if(_pendingCombatEndPlayerResolved && _pendingCombatEndOpponentResolved)
+						_pendingCombatEnd = false;
+					// #region agent log
+					RuntimeDebugLog("H26", "PowerLogParser.cs:ApplyEndHealthFromHeroTagChange", "post_combat_end_update",
+						new
+						{
+							turnNumber = lastTurn.TurnNumber,
+							pendingTurnNumber = _pendingCombatEndTurnNumber,
+							isPlayerHero,
+							isOpponentHero,
+							playerResolved = _pendingCombatEndPlayerResolved,
+							opponentResolved = _pendingCombatEndOpponentResolved,
+							pendingRemaining = _pendingCombatEnd,
+							outcome
+						});
+					// #endregion
+					if(!_pendingCombatEnd)
+					{
+						// #region agent log
+						RuntimeDebugLog("H26", "PowerLogParser.cs:ApplyEndHealthFromHeroTagChange", "post_combat_end_complete",
+							new
+							{
+								turnNumber = lastTurn.TurnNumber,
+								playerEndHealth = lastTurn.PlayerEndHealth,
+								playerEndArmor = lastTurn.PlayerEndArmor,
+								opponentEndHealth = lastTurn.OpponentEndHealth,
+								opponentEndArmor = lastTurn.OpponentEndArmor,
+								outcome
+							});
+						// #endregion
+					}
+				}
 				// #region agent log
 				RuntimeDebugLog("H18", "PowerLogParser.cs:ApplyEndHealthFromHeroTagChange", "end_health_from_tag",
 					new
@@ -2044,6 +2251,55 @@ namespace HdtTbRecordPlugin
 					});
 				// #endregion
 			}
+		}
+
+		private bool ShouldAllowPostCombatEndUpdate()
+		{
+			// 仅在战斗结束后等待“结算标签”事件时允许补写。
+			return _pendingCombatEnd;
+		}
+
+		private object BuildHeroStatSample(int playerId)
+		{
+			var coreHeroEntityId = ResolveCoreHeroEntityId(playerId);
+			var coreHeroEntity = TryGetCoreHeroEntity(coreHeroEntityId);
+			var coreHealth = coreHeroEntity != null ? GetTagValue(coreHeroEntity, GameTag.HEALTH) : 0;
+			var coreDamage = coreHeroEntity != null ? GetTagValue(coreHeroEntity, GameTag.DAMAGE) : 0;
+			var coreArmor = coreHeroEntity != null ? GetTagValue(coreHeroEntity, GameTag.ARMOR) : 0;
+			var coreCardId = coreHeroEntity?.CardId;
+
+			var heroEntityId = TryGetHeroEntityId(playerId);
+			EntityState? heroEntity = null;
+			if(heroEntityId > 0)
+				_entities.TryGetValue(heroEntityId, out heroEntity);
+			var heroHealth = heroEntity != null ? GetTagValue(heroEntity, GameTag.HEALTH) : 0;
+			var heroDamage = heroEntity != null ? GetTagValue(heroEntity, GameTag.DAMAGE) : 0;
+			var heroArmor = heroEntity != null ? GetTagValue(heroEntity, GameTag.ARMOR) : 0;
+			var heroCardId = heroEntity?.CardId;
+
+			var playerEntity = TryGetPlayerEntity(playerId);
+			var playerHealth = playerEntity != null ? GetTagValue(playerEntity, GameTag.HEALTH) : 0;
+			var playerDamage = playerEntity != null ? GetTagValue(playerEntity, GameTag.DAMAGE) : 0;
+			var playerArmor = playerEntity != null ? GetTagValue(playerEntity, GameTag.ARMOR) : 0;
+
+			return new
+			{
+				playerId,
+				coreHeroEntityId,
+				coreHealth,
+				coreDamage,
+				coreArmor,
+				coreCardId,
+				heroEntityId,
+				heroHealth,
+				heroDamage,
+				heroArmor,
+				heroCardId,
+				playerEntityId = playerEntity?.Id ?? 0,
+				playerHealth,
+				playerDamage,
+				playerArmor
+			};
 		}
 
 		private EntityState GetOrCreateEntity(int id)

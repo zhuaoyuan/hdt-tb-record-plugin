@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj": {}
+    "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj": {}
   },
   "projects": {
-    "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj": {
+    "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
+        "projectUniqueName": "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
         "projectName": "hdt-tb-record-plugin",
-        "projectPath": "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
+        "projectPath": "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\projects\\github\\hdt-tb-record-plugin\\obj\\",
+        "outputPath": "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -30,8 +30,8 @@
           "net472": {
             "targetAlias": "net472",
             "projectReferences": {
-              "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj": {
-                "projectPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj"
+              "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj": {
+                "projectPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj"
               }
             }
           }
@@ -61,20 +61,20 @@
         }
       }
     },
-    "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj": {
+    "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj",
+        "projectUniqueName": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj",
         "projectName": "HearthstoneDeckTracker",
-        "projectPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj",
-        "packagesPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\packages",
-        "outputPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\obj\\",
+        "projectPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj",
+        "packagesPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\packages",
+        "outputPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\projects\\github\\Hearthstone-Deck-Tracker\\NuGet.Config",
+          "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\NuGet.Config",
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
         ],
@@ -88,8 +88,8 @@
           "net472": {
             "targetAlias": "net472",
             "projectReferences": {
-              "C:\\projects\\github\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj": {
-                "projectPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj"
+              "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj": {
+                "projectPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj"
               }
             }
           }
@@ -175,20 +175,20 @@
         }
       }
     },
-    "C:\\projects\\github\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj": {
+    "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj",
+        "projectUniqueName": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj",
         "projectName": "HearthWatcher",
-        "projectPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj",
-        "packagesPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\packages",
-        "outputPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\HearthWatcher\\obj\\",
+        "projectPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\HearthWatcher\\HearthWatcher.csproj",
+        "packagesPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\packages",
+        "outputPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\HearthWatcher\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\projects\\github\\Hearthstone-Deck-Tracker\\NuGet.Config",
+          "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\NuGet.Config",
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config"
         ],

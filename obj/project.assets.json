@@ -826,11 +826,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
+      "projectUniqueName": "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
       "projectName": "hdt-tb-record-plugin",
-      "projectPath": "C:\\projects\\github\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
+      "projectPath": "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\hdt-tb-record-plugin.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\projects\\github\\hdt-tb-record-plugin\\obj\\",
+      "outputPath": "c:\\projects\\github\\hdt\\hdt-tb-record-plugin\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -849,8 +849,8 @@
         "net472": {
           "targetAlias": "net472",
           "projectReferences": {
-            "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj": {
-              "projectPath": "C:\\projects\\github\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj"
+            "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj": {
+              "projectPath": "c:\\projects\\github\\hdt\\Hearthstone-Deck-Tracker\\Hearthstone Deck Tracker\\Hearthstone Deck Tracker.csproj"
             }
           }
         }

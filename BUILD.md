@@ -15,7 +15,7 @@ msbuild hdt-tb-record-plugin.csproj /p:Configuration=Release
 如果你在 **PowerShell** 中执行，可用一条命令先加载 VS 开发者环境再构建：
 
 ```
-& "C:\Windows\System32\cmd.exe" /c '"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\VsDevCmd.bat" && msbuild "c:\projects\github\hdt-tb-record-plugin\hdt-tb-record-plugin.csproj" /p:Configuration=Release'
+& "C:\Windows\System32\cmd.exe" /c '"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\VsDevCmd.bat" && msbuild "c:\projects\github\                                                                                                           \hdt-tb-record-plugin\hdt-tb-record-plugin.csproj" /p:Configuration=Release'
 ```
 
 输出目录：

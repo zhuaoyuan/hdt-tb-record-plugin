@@ -1,6 +1,6 @@
 is_global = true
 build_property.RootNamespace = hdt-tb-record-plugin
-build_property.ProjectDir = c:\projects\github\hdt-tb-record-plugin\
+build_property.ProjectDir = c:\projects\github\hdt\hdt-tb-record-plugin\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.CsWinRTUseWindowsUIXamlProjections = false
