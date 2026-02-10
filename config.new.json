@@ -1,0 +1,7 @@
+{
+  "OutputDirectory": "C:\\Users\\Administrator\\AppData\\Roaming\\HearthstoneDeckTracker\\Plugins\\hdt-tb-record-plugin\\testcase",
+  "RecordShopEvents": true,
+  "SaveRawBlocks": true,
+  "KeepDebugLogs": false,
+  "DebugLogPath": "C:\\Users\\Administrator\\AppData\\Roaming\\HearthstoneDeckTracker\\Plugins\\hdt-tb-record-plugin\\debug.log"
+}

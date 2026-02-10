@@ -23,7 +23,7 @@ namespace HdtTbRecordPlugin
 			Path.Combine(Hearthstone_Deck_Tracker.Config.AppDataPath, "Plugins", "hdt-tb-record-plugin");
 
 		public static string DefaultOutputDirectory =>
-			Path.Combine(PluginDirectory, "records");
+			Path.Combine(PluginDirectory, "testcase");
 
 		public static string DefaultDebugLogPath =>
 			Path.Combine(PluginDirectory, "debug.log");
@@ -41,7 +41,15 @@ namespace HdtTbRecordPlugin
 					var json = File.ReadAllText(ConfigPath);
 					var cfg = JsonConvert.DeserializeObject<PluginConfig>(json);
 					if(cfg != null)
+					{
+						// 若输出目录不可用，则回退到默认目录并保存。
+						if(string.IsNullOrWhiteSpace(cfg.OutputDirectory) || !TryEnsureDirectory(cfg.OutputDirectory))
+						{
+							cfg.OutputDirectory = DefaultOutputDirectory;
+							cfg.Save();
+						}
 						return cfg;
+					}
 				}
 			}
 			catch(Exception ex)
@@ -66,6 +74,21 @@ namespace HdtTbRecordPlugin
 			catch(Exception ex)
 			{
 				Log.Error(ex);
+			}
+		}
+
+		private static bool TryEnsureDirectory(string path)
+		{
+			try
+			{
+				if(string.IsNullOrWhiteSpace(path))
+					return false;
+				Directory.CreateDirectory(path);
+				return true;
+			}
+			catch
+			{
+				return false;
 			}
 		}
 

@@ -1,0 +1,30 @@
+{
+  "matchId": "20260208_111146_467_e0435b7c01314e4f8bf49358f1499963",
+  "startedAtUtc": "2026-02-08T11:11:46.4676485Z",
+  "endedAtUtc": "2026-02-08T11:34:39.0086002Z",
+  "gameType": "GT_BATTLEGROUNDS",
+  "localPlayerId": 1,
+  "turns": [
+    {
+      "turnNumber": 2,
+      "playerHeroCardId": "BG20_HERO_201",
+      "opponentHeroCardId": "TB_BaconShop_HERO_34",
+      "expected": {
+        "outcome": "Win",
+        "playerEndHealth": 30,
+        "playerEndArmor": 17,
+        "opponentEndHealth": 57,
+        "opponentEndArmor": 0,
+        "note": "auto"
+      },
+      "observed": {
+        "outcome": "Win",
+        "playerEndHealth": 30,
+        "playerEndArmor": 17,
+        "opponentEndHealth": 57,
+        "opponentEndArmor": 0
+      },
+      "notes": ""
+    }
+  ]
+}

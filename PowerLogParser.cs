@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace HdtTbRecordPlugin
 {
-	public class PowerLogParser
+	public partial class PowerLogParser
 	{
 		// 解析 Power.log 的核心入口：维护实体状态、回合与战斗快照。
 		// 设计目标：以 Power.log 为主，HDT Core/Watcher 为辅，保证战斗回合信息完整。
@@ -75,6 +75,13 @@ namespace HdtTbRecordPlugin
 		private DateTime _pendingCombatEndAtUtc;
 		private bool _pendingCombatEndPlayerResolved;
 		private bool _pendingCombatEndOpponentResolved;
+		private string? _matchId;
+		private DateTime _matchStartUtc;
+		private string? _diagnosticsDirectory;
+		private string? _rawEventsPath;
+		private string? _snapshotsPath;
+		private string? _expectationsPath;
+		private string? _coreInputPath;
 		private readonly object _watcherLock = new object();
 		private List<int> _watcherOpponentEntityIds = new List<int>(); // 来自 Watcher 的对手随从实体列表。
 		private DateTime _watcherOpponentUpdatedUtc; // Watcher 数据最新更新时间（用于评估时效性）。
@@ -132,6 +139,14 @@ namespace HdtTbRecordPlugin
 					updatedUtc = _watcherOpponentUpdatedUtc.ToString("O")
 				});
 			// #endregion
+			RecordSnapshot("watcher_opponent_board", _currentTurnItem, new
+			{
+				boardCardCount,
+				idsCount = ids.Count,
+				firstIds = ids.Take(6).ToArray(),
+				combatActive = _combatActive,
+				updatedUtc = _watcherOpponentUpdatedUtc.ToString("O")
+			});
 
 			if(_combatActive)
 				RefreshCombatSnapshotIfNeeded("watcher", null, null);
@@ -173,14 +188,28 @@ namespace HdtTbRecordPlugin
 			// Power.log 中出现 CREATE_GAME 表示新对局开始。
 			if(line.Contains("CREATE_GAME"))
 			{
+				if(_currentGame != null && !_gameWritten)
+				{
+					RecordRawEvent("CREATE_GAME_IGNORED", line, new
+					{
+						reason = "game_in_progress"
+					});
+					return;
+				}
 				StartNewGame();
 				_pendingTagEntityId = 0;
+				RecordRawEvent("CREATE_GAME", line, null);
 				return;
 			}
 
 			// 看到基础实体时开始跟踪。
 			if(_currentGame == null && (LogConstants.PowerTaskList.GameEntityRegex.IsMatch(line) || LogConstants.PowerTaskList.PlayerEntityRegex.IsMatch(line)))
+			{
+				if(_currentGame != null && !_gameWritten)
+					return;
 				StartNewGame();
+				RecordRawEvent("AUTO_START_GAME", line, null);
+			}
 
 			UpdateLocalPlayerId();
 
@@ -192,6 +221,8 @@ namespace HdtTbRecordPlugin
 				_pendingTagEntityId = 0;
 			HandleTagChange(line);
 			HandleBlockStart(line);
+			if(line.Contains("BLOCK_END"))
+				RecordRawEvent("BLOCK_END", line, null);
 		}
 
 		public void Flush()
@@ -214,6 +245,7 @@ namespace HdtTbRecordPlugin
 				GameType = Core.Game?.CurrentGameType.ToString(),
 				LocalPlayerId = _localPlayerId
 			};
+			InitDiagnostics();
 		}
 
 		private void ResetState()
@@ -240,6 +272,13 @@ namespace HdtTbRecordPlugin
 			_pendingCombatEndOpponentResolved = false;
 			_playerIdToHeroEntityId.Clear();
 			_playerEntityIdToHeroEntityId.Clear();
+			_matchId = null;
+			_matchStartUtc = default;
+			_diagnosticsDirectory = null;
+			_rawEventsPath = null;
+			_snapshotsPath = null;
+			_expectationsPath = null;
+			_coreInputPath = null;
 		}
 
 		private void UpdateLocalPlayerId()
@@ -263,6 +302,10 @@ namespace HdtTbRecordPlugin
 			{
 				_gameEntityId = id;
 				GetOrCreateEntity(id);
+				RecordRawEvent("GAME_ENTITY", line, new
+				{
+					entityId = id
+				});
 			}
 		}
 
@@ -280,6 +323,11 @@ namespace HdtTbRecordPlugin
 				{
 					entity.PlayerId = playerId;
 					entity.Tags[GameTag.PLAYER_ID] = playerId;
+					RecordRawEvent("PLAYER_ENTITY", line, new
+					{
+						entityId = id,
+						playerId
+					});
 				}
 			}
 		}
@@ -306,6 +354,12 @@ namespace HdtTbRecordPlugin
 					entity.CardType = card.TypeEnum.Value;
 			}
 			_pendingTagEntityId = id;
+			RecordRawEvent("FULL_ENTITY", line, new
+			{
+				entityId = id,
+				zone = zone.ToString(),
+				cardId
+			});
 			return true;
 		}
 
@@ -326,6 +380,11 @@ namespace HdtTbRecordPlugin
 			if(!string.IsNullOrEmpty(cardId))
 				entity.CardId = cardId;
 			_pendingTagEntityId = entityId;
+			RecordRawEvent("UPDATE_ENTITY", line, new
+			{
+				entityId,
+				cardId
+			});
 			return true;
 		}
 
@@ -355,6 +414,13 @@ namespace HdtTbRecordPlugin
 				return true;
 			entity.Tags[tag] = value;
 			ApplyDerivedTag(entity, tag, value);
+			RecordRawEvent("ENTITY_TAG", line, new
+			{
+				entityId = _pendingTagEntityId,
+				tag = tag.ToString(),
+				value,
+				prevValue
+			});
 			RefreshCombatSnapshotIfNeeded("tag_line", entity, tag);
 			return true;
 		}
@@ -383,6 +449,13 @@ namespace HdtTbRecordPlugin
 			if(prevValue == value)
 				return;
 			entity.Tags[tag] = value;
+			RecordRawEvent("TAG_CHANGE", line, new
+			{
+				entityId,
+				tag = tag.ToString(),
+				value,
+				prevValue
+			});
 
 			// 更新派生字段并处理特殊 Tag。
 			ApplyDerivedTag(entity, tag, value);
@@ -529,6 +602,14 @@ namespace HdtTbRecordPlugin
 					Raw = line
 				});
 			}
+			RecordRawEvent("BLOCK_START", line, new
+			{
+				blockType = match.Groups["type"].Value,
+				cardId = match.Groups["Id"].Value,
+				sourceEntityId = int.TryParse(match.Groups["id"].Value, out var parsedId) ? parsedId : 0,
+				playerId = int.TryParse(match.Groups["player"].Value, out var parsedPlayerId) ? parsedPlayerId : 0,
+				target = match.Groups["target"].Value
+			});
 
 			if(_combatActive)
 				RefreshCombatSnapshotIfNeeded("block_start", null, null);
@@ -572,6 +653,13 @@ namespace HdtTbRecordPlugin
 				return;
 			_turnTag = value;
 			_turnNumber = (_turnTag + 1) / 2;
+			RecordSnapshot("turn_change", null, new
+			{
+				turnTag = _turnTag,
+				turnNumber = _turnNumber,
+				combatActive = _combatActive
+			});
+			RecordCoreInput("turn_change");
 		}
 
 		private void HandlePlayState(int entityId, GameTag tag, int value)
@@ -773,6 +861,8 @@ namespace HdtTbRecordPlugin
 			// 战斗开始时抓取双方阵容快照。
 			if(_currentGame == null || !(Core.Game?.IsBattlegroundsMatch ?? false))
 				return;
+			if(string.IsNullOrEmpty(_diagnosticsDirectory))
+				InitDiagnostics();
 
 			// 新战斗开始时清空上一场的结算等待状态。
 			_pendingCombatEnd = false;
@@ -859,6 +949,16 @@ namespace HdtTbRecordPlugin
 			var missingReason = GetSnapshotMissingReason(round);
 			_needsCombatRefresh = !string.IsNullOrEmpty(missingReason);
 			LogRoundSnapshot("combat_start", round);
+			RecordSnapshot("combat_start", round, new
+			{
+				turnNumber = round.TurnNumber,
+				localPlayerId = localId,
+				opponentPlayerId = opponentId,
+				playerBoardSource,
+				opponentBoardSource,
+				missingReason
+			});
+			RecordCoreInput("combat_start");
 			DebugLog($"combat_start turn={_turnNumber} local={localId} opponent={opponentId} " +
 				$"playerHero={(playerHeroSnapshot != null ? "ok" : "null")} opponentHero={(opponentHeroSnapshot != null ? "ok" : "null")} " +
 				$"playerBoard={round.PlayerBoard.Count} opponentBoard={round.OpponentBoard.Count} " +
@@ -989,6 +1089,23 @@ namespace HdtTbRecordPlugin
 					combatStartOpponentDamageTag = _combatStartOpponentDamageTag
 				});
 			// #endregion
+			RecordSnapshot("combat_end", _currentTurnItem, new
+			{
+				turnNumber = _currentTurnItem.TurnNumber,
+				outcome,
+				damageToPlayer,
+				damageToOpponent,
+				playerEndSource,
+				opponentEndSource,
+				pendingCombatEnd = _pendingCombatEnd
+			});
+			RecordCoreInput("combat_end");
+			if(Core.Game?.IsBattlegroundsMatch ?? false)
+			{
+				// 每次战斗结束写一次阶段性结果与 expectations，便于中途调试。
+				WriteExpectations();
+				JsonWriter.WriteTurns(_config.OutputDirectory, _currentGame!, _turnItems);
+			}
 			DebugLog($"combat_end turn={_currentTurnItem.TurnNumber} outcome={outcome} " +
 				$"playerEndHp={_currentTurnItem.PlayerEndHealth} opponentEndHp={_currentTurnItem.OpponentEndHealth}");
 			_currentTurnItem = null;
@@ -1454,6 +1571,8 @@ namespace HdtTbRecordPlugin
 			var atk = GetTagValue(entity, GameTag.ATK);
 			var health = GetTagValue(entity, GameTag.HEALTH);
 			var damage = GetTagValue(entity, GameTag.DAMAGE);
+			var premium = GetTagValue(entity, GameTag.PREMIUM);
+			var techLevel = GetTagValue(entity, GameTag.TECH_LEVEL);
 			var statuses = _statusTags
 				.Where(t => GetTagValue(entity, t) > 0)
 				.Select(t => t.ToString())
@@ -1468,8 +1587,10 @@ namespace HdtTbRecordPlugin
 				MaxHealth = health,
 				Damage = damage,
 				Health = Math.Max(0, health - damage),
+				Premium = premium,
+				TechLevel = techLevel,
 				Statuses = statuses,
-				Tags = ToTagMap(entity.Tags)
+				Tags = null
 			};
 		}
 
@@ -1479,6 +1600,8 @@ namespace HdtTbRecordPlugin
 			var atk = GetTagValue(entity, GameTag.ATK);
 			var health = GetTagValue(entity, GameTag.HEALTH);
 			var damage = GetTagValue(entity, GameTag.DAMAGE);
+			var premium = GetTagValue(entity, GameTag.PREMIUM);
+			var techLevel = GetTagValue(entity, GameTag.TECH_LEVEL);
 			var statuses = _statusTags
 				.Where(t => GetTagValue(entity, t) > 0)
 				.Select(t => t.ToString())
@@ -1493,8 +1616,10 @@ namespace HdtTbRecordPlugin
 				MaxHealth = health,
 				Damage = damage,
 				Health = Math.Max(0, health - damage),
+				Premium = premium,
+				TechLevel = techLevel,
 				Statuses = statuses,
-				Tags = ToTagMap(entity.Tags)
+				Tags = null
 			};
 		}
 
@@ -1816,7 +1941,18 @@ namespace HdtTbRecordPlugin
 			_needsCombatRefresh = !string.IsNullOrEmpty(missingReason);
 
 			if(updated)
+			{
 				LogRoundSnapshot($"combat_refresh:{reason}", _currentTurnItem);
+				RecordSnapshot("combat_refresh", _currentTurnItem, new
+				{
+					turnNumber = _currentTurnItem.TurnNumber,
+					reason,
+					playerBoardSource = _currentTurnItem.PlayerBoardSource,
+					opponentBoardSource = _currentTurnItem.OpponentBoardSource,
+					missingReason
+				});
+				RecordCoreInput("combat_refresh");
+			}
 			DebugLog($"combat_refresh reason={reason} updated={(updated ? "yes" : "no")} " +
 				$"playerBoard={_currentTurnItem.PlayerBoard.Count} opponentBoard={_currentTurnItem.OpponentBoard.Count} " +
 				$"playerBoardSource={_currentTurnItem.PlayerBoardSource} opponentBoardSource={_currentTurnItem.OpponentBoardSource} " +
@@ -1900,6 +2036,7 @@ namespace HdtTbRecordPlugin
 			{
 				// 兜底填充战斗结束血量，避免最后一回合缺失。
 				ApplyEndHealthFallback();
+				WriteExpectations();
 				// #region agent log
 				RuntimeDebugLog("H13", "PowerLogParser.cs:WriteAndReset", "write_turns_call",
 					new
@@ -1937,6 +2074,11 @@ namespace HdtTbRecordPlugin
 				JsonWriter.WriteTurns(_config.OutputDirectory, _currentGame, _turnItems);
 			}
 
+			RecordRawEvent("MATCH_END", null, new
+			{
+				turnsCount = _turnItems.Count,
+				gameType = _currentGame?.GameType
+			});
 			ResetState();
 			_currentGame = null;
 		}

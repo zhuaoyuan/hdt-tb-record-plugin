@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("hdt-tb-record-plugin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9901a1e2bb6858690f59d4a768170fbdabc3e1ce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1425c2c637030bfeaf00992055f1c755a83ea79")]
 [assembly: System.Reflection.AssemblyProductAttribute("hdt-tb-record-plugin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("hdt-tb-record-plugin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
