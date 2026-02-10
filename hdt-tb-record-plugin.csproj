@@ -11,12 +11,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Hearthstone-Deck-Tracker\Hearthstone Deck Tracker\Hearthstone Deck Tracker.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="HearthDb">
-      <HintPath>..\Hearthstone-Deck-Tracker\lib\HearthDb.dll</HintPath>
+    <Reference Include="HearthstoneDeckTracker">
+      <HintPath>$(HdtBin)\HearthstoneDeckTracker.exe</HintPath>
+      <Private>false</Private>
     </Reference>
+    <Reference Include="HearthWatcher">
+      <HintPath>$(HdtBin)\HearthWatcher.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="HearthDb">
+      <HintPath>$(HdtBin)\HearthDb.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
 </Project>

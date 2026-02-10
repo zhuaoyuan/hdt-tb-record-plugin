@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <HdtBin>C:\Program Files\HDT\</HdtBin>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)artifacts\obj\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)artifacts\bin\</BaseOutputPath>
+  </PropertyGroup>
+</Project>

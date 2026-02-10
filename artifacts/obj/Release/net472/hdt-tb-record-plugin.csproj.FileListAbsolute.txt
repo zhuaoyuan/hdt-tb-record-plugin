@@ -1,0 +1,12 @@
+C:\projects\github\hdt\hdt-tb-record-plugin\bin\Release\net472\hdt-tb-record-plugin.dll
+C:\projects\github\hdt\hdt-tb-record-plugin\bin\Release\net472\hdt-tb-record-plugin.pdb
+C:\projects\github\hdt\hdt-tb-record-plugin\bin\Release\net472\Newtonsoft.Json.dll
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-record-plugin.csproj.AssemblyReference.cache
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-record-plugin.GeneratedMSBuildEditorConfig.editorconfig
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-record-plugin.AssemblyInfoInputs.cache
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-record-plugin.AssemblyInfo.cs
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-record-plugin.csproj.CoreCompileInputs.cache
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-record-plugin.sourcelink.json
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-r.5680D411.Up2Date
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-record-plugin.dll
+C:\projects\github\hdt\hdt-tb-record-plugin\artifacts\obj\Release\net472\hdt-tb-record-plugin.pdb
